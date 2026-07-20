@@ -299,7 +299,7 @@
 
     <!-- ===== COLLECTION SECTIONS ===== -->
     
-    <!-- BEDROOM COLLECTION -->
+    <!-- BEDROOM COLLECTION - Only Beds -->
     <div id="bedroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
             <h2 class="font-serif text-3xl tracking-wide gold-underline">Bedroom Collection</h2>
@@ -310,7 +310,7 @@
         <div class="product-grid" id="bedroom-products"></div>
     </div>
 
-    <!-- LIVING ROOM COLLECTION -->
+    <!-- LIVING ROOM COLLECTION - Only Sofas & Couches -->
     <div id="livingroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
             <h2 class="font-serif text-3xl tracking-wide gold-underline">Living Room Collection</h2>
@@ -321,7 +321,7 @@
         <div class="product-grid" id="livingroom-products"></div>
     </div>
 
-    <!-- DINING COLLECTION -->
+    <!-- DINING COLLECTION - Only Dining Tables & Chairs -->
     <div id="dining-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
             <h2 class="font-serif text-3xl tracking-wide gold-underline">Dining Room Collection</h2>
@@ -332,7 +332,7 @@
         <div class="product-grid" id="dining-products"></div>
     </div>
 
-    <!-- OFFICE COLLECTION -->
+    <!-- OFFICE COLLECTION - Only Office Desks & Chairs -->
     <div id="office-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
             <h2 class="font-serif text-3xl tracking-wide gold-underline">Office Collection</h2>
@@ -398,58 +398,67 @@
     </footer>
 
     <script>
-        // Product data generator - 200 products per collection
+        // Product data generator - 200 specific products per collection
         function generateProducts(category, count = 200) {
             const products = [];
-            const categories = {
+            
+            // Category-specific product names
+            const categoryData = {
                 bedroom: {
-                    names: ['Luxury King Bed', 'Queen Bed Frame', 'Modern Wardrobe', 'Nightstand Set', 'Dresser Mirror', 
-                           'Wooden Bed Frame', 'Upholstered Headboard', 'Storage Bed', 'Bunk Bed', 'Trundle Bed',
-                           'Vanity Table', 'Jewelry Armoire', 'Shoe Cabinet', 'Bedside Table', 'Wardrobe Closet',
-                           'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
-                           'Bedroom Bench', 'Laundry Hamper', 'Valet Stand', 'Full Length Mirror', 'Jewelry Box',
-                           'Bedroom Rug', 'Curtain Set', 'Bedding Set', 'Pillow Set', 'Mattress Topper',
-                           'Bed Skirt', 'Duvet Cover', 'Comforter Set', 'Sheet Set', 'Blanket Throw',
-                           'Bedroom Lamp', 'Table Lamp', 'Floor Lamp', 'Wall Sconce', 'Ceiling Light',
-                           'Ceiling Fan', 'Blackout Curtains', 'Sheer Curtains', 'Valance', 'Cornice',
-                           'Bedroom Chair', 'Accent Chair', 'Ottoman', 'Bench', 'Stool',
-                           'Makeup Table', 'Jewelry Stand', 'Trunk', 'Storage Bench', 'Clothes Rack']
+                    names: [
+                        'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
+                        'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
+                        'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
+                        'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
+                        'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
+                        'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
+                        'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
+                        'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
+                        'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
+                        'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
+                    ]
                 },
                 livingroom: {
-                    names: ['Luxury Sofa Set', 'Sectional Sofa', 'Recliner Chair', 'Coffee Table', 'Entertainment Unit',
-                           'TV Stand', 'Bookshelf', 'Display Cabinet', 'Side Table', 'Console Table',
-                           'Accent Chair', 'Ottoman', 'Rug', 'Curtains', 'Lamp Set',
-                           'Leather Sofa', 'Fabric Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat',
-                           'Armchair', 'Rocking Chair', 'Swivel Chair', 'Chaise Lounge', 'Daybed',
-                           'End Table', 'Nesting Tables', 'Magazine Rack', 'Plant Stand', 'Fireplace Set',
-                           'TV Wall Mount', 'Soundbar Stand', 'Media Console', 'DVD Rack', 'Game Shelf',
-                           'Throw Pillows', 'Blanket Basket', 'Candle Set', 'Vase Set', 'Wall Art',
-                           'Floor Mirror', 'Wall Clock', 'Picture Frame', 'Photo Album', 'Bookend',
-                           'Wine Rack', 'Bar Cart', 'Wine Glass Set', 'Decanter Set', 'Ice Bucket']
+                    names: [
+                        'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
+                        'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
+                        'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
+                        'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
+                        'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
+                        'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
+                        'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
+                        'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
+                        'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
+                        'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
+                    ]
                 },
                 dining: {
-                    names: ['Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Dining Chairs Set', 'Buffet Cabinet',
-                           'China Cabinet', 'Sideboard', 'Bar Stools', 'Wine Rack', 'Dinnerware Set',
-                           'Glassware Set', 'Tablecloth', 'Placemat Set', 'Napkin Set', 'Candle Holders',
-                           'Salt & Pepper Set', 'Butter Dish', 'Sugar Bowl', 'Creamer Set', 'Tea Set',
-                           'Coffee Maker', 'Espresso Set', 'Mug Set', 'Plate Set', 'Bowl Set',
-                           'Cutlery Set', 'Serving Platter', 'Serving Bowl', 'Tray Set', 'Trivet Set',
-                           'Table Runner', 'Chair Cushion', 'Table Pad', 'Centerpiece', 'Fruit Bowl',
-                           'Bread Basket', 'Cheese Board', 'Wine Glasses', 'Water Glasses', 'Juice Glasses',
-                           'Pitcher Set', 'Ice Bucket', 'Wine Decanter', 'Whiskey Set', 'Champagne Flutes',
-                           'Table Lamp', 'Candle Set', 'Vase', 'Flower Pot', 'Table Runner']
+                    names: [
+                        'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
+                        'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
+                        'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
+                        'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
+                        '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
+                        'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
+                        'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
+                        'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
+                        'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
+                        'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
+                    ]
                 },
                 office: {
-                    names: ['Executive Desk', 'Office Chair', 'Conference Table', 'Bookshelf', 'Filing Cabinet',
-                           'Office Partition', 'Whiteboard', 'Pin Board', 'Desk Lamp', 'Monitor Stand',
-                           'Keyboard Tray', 'Cable Organizer', 'Desk Organizer', 'Document Holder', 'Pen Set',
-                           'Notepad Holder', 'Business Card Holder', 'Desk Calendar', 'Clock Set', 'Shelf Set',
-                           'Storage Box', 'File Folder', 'Label Maker', 'Stapler Set', 'Scissor Set',
-                           'Tape Dispenser', 'Glue Set', 'Paper Clip Set', 'Rubber Band Set', 'Pencil Case',
-                           'Desk Mat', 'Mouse Pad', 'Laptop Stand', 'Tablet Holder', 'Phone Stand',
-                           'Charging Station', 'Desk Fan', 'Space Heater', 'Air Purifier', 'Plant Set',
-                           'Wall Art', 'Motivational Poster', 'Award Plaque', 'Name Plate', 'Badge Holder',
-                           'Meeting Table', 'Folding Chair', 'Stackable Chair', 'Lounge Chair', 'Ottoman']
+                    names: [
+                        'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
+                        'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
+                        'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
+                        'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
+                        'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
+                        'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
+                        'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
+                        'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
+                        'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
+                        'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
+                    ]
                 }
             };
 
@@ -466,15 +475,16 @@
                 'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
             ];
 
-            const catData = categories[category] || categories.bedroom;
+            const data = categoryData[category] || categoryData.bedroom;
+            const namesList = data.names;
             
             for (let i = 0; i < count; i++) {
-                const nameIndex = i % catData.names.length;
+                const nameIndex = i % namesList.length;
                 const imgIndex = i % imgUrls.length;
-                const variant = Math.floor(i / catData.names.length) + 1;
+                const variant = Math.floor(i / namesList.length) + 1;
                 
                 products.push({
-                    name: `${catData.names[nameIndex]} ${variant > 1 ? `(Variant ${variant})` : ''}`,
+                    name: `${namesList[nameIndex]} ${variant > 1 ? `(Variant ${variant})` : ''}`,
                     img: `${imgUrls[imgIndex]}?auto=format&fit=crop&q=80&w=400&h=300&random=${i}`
                 });
             }
