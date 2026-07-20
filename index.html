@@ -399,65 +399,61 @@
     </footer>
 
     <script>
-        // Category-specific product names - EACH CATEGORY HAS ITS OWN SPECIFIC ITEMS
-        const categoryData = {
-            bedroom: {
-                names: [
-                    'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
-                    'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
-                    'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
-                    'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
-                    'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
-                    'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
-                    'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
-                    'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
-                    'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
-                    'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
-                ]
-            },
-            livingroom: {
-                names: [
-                    'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
-                    'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
-                    'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
-                    'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
-                    'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
-                    'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
-                    'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
-                    'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
-                    'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
-                    'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
-                ]
-            },
-            dining: {
-                names: [
-                    'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
-                    'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
-                    'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
-                    'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
-                    '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
-                    'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
-                    'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
-                    'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
-                    'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
-                    'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
-                ]
-            },
-            office: {
-                names: [
-                    'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
-                    'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
-                    'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
-                    'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
-                    'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
-                    'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
-                    'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
-                    'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
-                    'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
-                    'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
-                ]
-            }
-        };
+        // BEDROOM products - ONLY beds
+        const bedroomProducts = [
+            'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
+            'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
+            'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
+            'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
+            'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
+            'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
+            'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
+            'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
+            'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
+            'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
+        ];
+
+        // LIVING ROOM products - ONLY sofas and couches
+        const livingroomProducts = [
+            'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
+            'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
+            'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
+            'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
+            'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
+            'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
+            'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
+            'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
+            'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
+            'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
+        ];
+
+        // DINING products - ONLY dining tables and chairs
+        const diningProducts = [
+            'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
+            'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
+            'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
+            'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
+            '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
+            'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
+            'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
+            'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
+            'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
+            'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
+        ];
+
+        // OFFICE products - ONLY office desks and chairs
+        const officeProducts = [
+            'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
+            'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
+            'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
+            'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
+            'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
+            'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
+            'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
+            'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
+            'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
+            'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
+        ];
 
         const imgUrls = [
             'https://images.unsplash.com/photo-1555041469-a586c61ea9bc',
@@ -472,30 +468,27 @@
             'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
         ];
 
-        // Product data generator - 200 specific products per collection
-        function generateProducts(category, count = 200) {
+        // Generate products for a specific category
+        function generateProductsForCategory(productList, count = 200) {
             const products = [];
-            const namesList = categoryData[category]?.names || categoryData.bedroom.names;
-            
             for (let i = 0; i < count; i++) {
-                const nameIndex = i % namesList.length;
+                const nameIndex = i % productList.length;
                 const imgIndex = i % imgUrls.length;
-                const variant = Math.floor(i / namesList.length) + 1;
-                
+                const variant = Math.floor(i / productList.length) + 1;
                 products.push({
-                    name: `${namesList[nameIndex]} ${variant > 1 ? `(Variant ${variant})` : ''}`,
+                    name: `${productList[nameIndex]} ${variant > 1 ? `(Variant ${variant})` : ''}`,
                     img: `${imgUrls[imgIndex]}?auto=format&fit=crop&q=80&w=400&h=300&random=${i}`
                 });
             }
             return products;
         }
 
-        // Generate and render products
-        function renderCollection(collectionId, category) {
-            const container = document.getElementById(collectionId);
+        // Render collection
+        function renderCollection(containerId, productList) {
+            const container = document.getElementById(containerId);
             if (!container) return;
             
-            const products = generateProducts(category);
+            const products = generateProductsForCategory(productList);
             container.innerHTML = products.map((product) => `
                 <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
                     <div>
@@ -520,17 +513,17 @@
             
             // Show the selected collection
             const collectionMap = {
-                bedroom: 'bedroom-collection',
-                livingroom: 'livingroom-collection',
-                dining: 'dining-collection',
-                office: 'office-collection'
+                bedroom: { id: 'bedroom-collection', products: bedroomProducts, container: 'bedroom-products' },
+                livingroom: { id: 'livingroom-collection', products: livingroomProducts, container: 'livingroom-products' },
+                dining: { id: 'dining-collection', products: diningProducts, container: 'dining-products' },
+                office: { id: 'office-collection', products: officeProducts, container: 'office-products' }
             };
             
-            const collectionId = collectionMap[category];
-            if (collectionId) {
-                const el = document.getElementById(collectionId);
+            const data = collectionMap[category];
+            if (data) {
+                const el = document.getElementById(data.id);
                 el.classList.add('active');
-                renderCollection(collectionId.replace('-collection', '-products'), category);
+                renderCollection(data.container, data.products);
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
