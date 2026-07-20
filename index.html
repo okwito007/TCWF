@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCWF | Classic World Furniture</title>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Playfair Display & Inter -->
@@ -398,85 +399,83 @@
     </footer>
 
     <script>
+        // Category-specific product names - EACH CATEGORY HAS ITS OWN SPECIFIC ITEMS
+        const categoryData = {
+            bedroom: {
+                names: [
+                    'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
+                    'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
+                    'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
+                    'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
+                    'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
+                    'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
+                    'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
+                    'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
+                    'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
+                    'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
+                ]
+            },
+            livingroom: {
+                names: [
+                    'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
+                    'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
+                    'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
+                    'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
+                    'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
+                    'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
+                    'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
+                    'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
+                    'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
+                    'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
+                ]
+            },
+            dining: {
+                names: [
+                    'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
+                    'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
+                    'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
+                    'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
+                    '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
+                    'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
+                    'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
+                    'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
+                    'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
+                    'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
+                ]
+            },
+            office: {
+                names: [
+                    'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
+                    'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
+                    'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
+                    'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
+                    'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
+                    'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
+                    'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
+                    'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
+                    'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
+                    'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
+                ]
+            }
+        };
+
+        const imgUrls = [
+            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc',
+            'https://images.unsplash.com/photo-1505693395321-883724634266',
+            'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf',
+            'https://images.unsplash.com/photo-1505797149-43b0069ec26b',
+            'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0',
+            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6',
+            'https://images.unsplash.com/photo-1533090161767-e6ffed986c88',
+            'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85',
+            'https://images.unsplash.com/photo-1617806118233-18e1db207f62',
+            'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
+        ];
+
         // Product data generator - 200 specific products per collection
         function generateProducts(category, count = 200) {
             const products = [];
-            
-            // Category-specific product names
-            const categoryData = {
-                bedroom: {
-                    names: [
-                        'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
-                        'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
-                        'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
-                        'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
-                        'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
-                        'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
-                        'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
-                        'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
-                        'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
-                        'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
-                    ]
-                },
-                livingroom: {
-                    names: [
-                        'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
-                        'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
-                        'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
-                        'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
-                        'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
-                        'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
-                        'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
-                        'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
-                        'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
-                        'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
-                    ]
-                },
-                dining: {
-                    names: [
-                        'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
-                        'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
-                        'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
-                        'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
-                        '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
-                        'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
-                        'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
-                        'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
-                        'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
-                        'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
-                    ]
-                },
-                office: {
-                    names: [
-                        'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
-                        'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
-                        'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
-                        'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
-                        'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
-                        'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
-                        'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
-                        'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
-                        'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
-                        'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
-                    ]
-                }
-            };
-
-            const imgUrls = [
-                'https://images.unsplash.com/photo-1555041469-a586c61ea9bc',
-                'https://images.unsplash.com/photo-1505693395321-883724634266',
-                'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf',
-                'https://images.unsplash.com/photo-1505797149-43b0069ec26b',
-                'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0',
-                'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6',
-                'https://images.unsplash.com/photo-1533090161767-e6ffed986c88',
-                'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85',
-                'https://images.unsplash.com/photo-1617806118233-18e1db207f62',
-                'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
-            ];
-
-            const data = categoryData[category] || categoryData.bedroom;
-            const namesList = data.names;
+            const namesList = categoryData[category]?.names || categoryData.bedroom.names;
             
             for (let i = 0; i < count; i++) {
                 const nameIndex = i % namesList.length;
