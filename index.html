@@ -4,14 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TCWF | Classic World Furniture</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-    <!-- Font Awesome Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Playfair Display & Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&display=swap" rel="stylesheet">
     
     <script>
@@ -34,90 +28,202 @@
                 }
             }
         }
+        
+        // ============================================
+        // ⚙️ YOUR CONFIGURATION - ALREADY SET!
+        // ============================================
+        const CONFIG = {
+            // Your ImgBB API Key
+            IMGBB_API_KEY: 'a408161fc9da7f32e63c081974794882',
+            
+            // Admin Password
+            ADMIN_PASSWORD: 'tcwf2026',
+            
+            // CEO WhatsApp
+            CEO_PHONE: '2349135357118',
+            CEO_NAME: 'Tochukwu'
+        };
     </script>
+    
     <style>
-        body {
-            background-color: #0b0b0b;
-            color: #ffffff;
-        }
-        .gold-underline::after {
-            content: '';
-            display: block;
-            width: 40px;
-            height: 2px;
-            background-color: #bfa15f;
-            margin: 12px auto 0;
-        }
-        .group:hover .group-hover\:scale-102 {
-            transform: scale(1.02);
-        }
-        .group-hover\:scale-102 {
-            transition: transform 0.3s ease;
-        }
-        .collection-section {
+        body { background-color: #0b0b0b; color: #ffffff; }
+        .gold-underline::after { content: ''; display: block; width: 40px; height: 2px; background-color: #bfa15f; margin: 12px auto 0; }
+        .collection-section { display: none; }
+        .collection-section.active { display: block; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+        @media (max-width: 640px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+        
+        .modal {
             display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
         }
-        .collection-section.active {
-            display: block;
+        .modal.active { display: flex; }
+        
+        .modal-content {
+            background: #1a1a1a;
+            border: 2px solid #bfa15f;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .back-to-home {
+        
+        .upload-area {
+            border: 2px dashed #bfa15f;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
             cursor: pointer;
+            transition: all 0.3s;
         }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 1.5rem;
+        .upload-area:hover { background: rgba(191,161,95,0.1); }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
         }
-        @media (max-width: 640px) {
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
+        .progress-fill {
+            height: 100%;
+            background: #bfa15f;
+            width: 0%;
+            transition: width 0.3s;
         }
+        
+        .image-card { position: relative; }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            z-index: 999;
+            transition: transform 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-brand-gold selection:text-black">
 
-    <!-- HEADER / NAVIGATION -->
-    <header class="border-b border-white/5 bg-brand-darkBg/90 backdrop-blur-md sticky top-0 z-50 transition-all">
+    <!-- HEADER -->
+    <header class="border-b border-white/5 bg-brand-darkBg/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <!-- Bold Logo -->
-            <a href="#" class="flex flex-col items-center" onclick="showHome()">
-                <span class="font-serif text-3xl tracking-[0.15em] text-brand-gold border-2 border-brand-gold px-4 py-1 font-black rounded-sm shadow-[0_0_15px_rgba(191,161,95,0.05)]">TCWF</span>
+            <a href="#" class="flex flex-col items-center" onclick="showHome(); return false;">
+                <span class="font-serif text-3xl tracking-[0.15em] text-brand-gold border-2 border-brand-gold px-4 py-1 font-black rounded-sm">TCWF</span>
                 <span class="text-[9px] uppercase tracking-[0.3em] text-brand-gold mt-1.5 font-bold">Classic World Furniture</span>
             </a>
 
-            <!-- Nav Links -->
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
-                <a href="#" class="text-brand-gold border-b border-brand-gold pb-1" onclick="showHome()">Home</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">About Us</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">Shop</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">Collections</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">Custom Furniture</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">Blog</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition">Contact</a>
+                <a href="#" class="text-brand-gold border-b border-brand-gold pb-1" onclick="showHome(); return false;">Home</a>
+                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('bedroom'); return false;">Beds</a>
+                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('livingroom'); return false;">Sofas</a>
+                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('dining'); return false;">Dining</a>
+                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('office'); return false;">Office</a>
             </nav>
 
-            <!-- Action Icons -->
             <div class="flex items-center space-x-6 text-white/90">
-                <button class="hover:text-brand-gold transition"><i class="fa-solid fa-magnifying-glass text-lg"></i></button>
-                <button class="hover:text-brand-gold transition"><i class="fa-regular fa-user text-lg"></i></button>
-                <button class="hover:text-brand-gold transition relative">
-                    <i class="fa-solid fa-bag-shopping text-lg"></i>
-                    <span class="absolute -top-2 -right-2 bg-brand-gold text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                <button onclick="openLoginModal()" class="hover:text-brand-gold transition text-xs border border-brand-gold/50 px-3 py-1.5 rounded">
+                    <i class="fa-solid fa-lock mr-1"></i> Admin
                 </button>
+                <a href="https://wa.me/2349135357118" target="_blank" class="hover:text-green-400 transition">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                </a>
             </div>
         </div>
     </header>
 
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-brand-gold text-2xl font-serif mb-4">🔐 Admin Login</h3>
+            <p class="text-brand-textMuted text-sm mb-4">Enter admin password to upload images</p>
+            <input type="password" id="admin-password" placeholder="Enter password" class="w-full bg-black border border-white/20 text-white px-4 py-3 rounded mb-4" onkeypress="if(event.key==='Enter') adminLogin()">
+            <button onclick="adminLogin()" class="w-full bg-brand-gold text-black py-3 rounded hover:bg-brand-goldHover font-medium">
+                <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
+            </button>
+            <p id="login-error" class="text-red-400 text-sm mt-3 hidden text-center">❌ Wrong password!</p>
+            <button onclick="document.getElementById('login-modal').classList.remove('active')" class="w-full text-brand-textMuted text-sm mt-3 hover:text-white">Cancel</button>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-brand-gold text-2xl font-serif">📤 Upload Furniture Images</h3>
+                <button onclick="closeAdminPanel()" class="text-white text-2xl hover:text-red-400">&times;</button>
+            </div>
+            
+            <div class="mb-6">
+                <label class="text-white text-sm mb-2 block font-medium">📂 Select Category:</label>
+                <select id="upload-category" class="w-full bg-black border border-white/20 text-white px-4 py-3 rounded mb-4">
+                    <option value="bedroom">🛏️ Bedroom - Beds Only</option>
+                    <option value="livingroom">🛋️ Living Room - Sofas & Couches Only</option>
+                    <option value="dining">🍽️ Dining - Tables & Chairs Only</option>
+                    <option value="office">💼 Office - Desks & Chairs Only</option>
+                </select>
+            </div>
+            
+            <div class="upload-area mb-4" onclick="document.getElementById('file-input').click()">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-brand-gold mb-3"></i>
+                <p class="text-white font-medium">Click to select images</p>
+                <p class="text-brand-textMuted text-xs mt-1">Supports JPG, PNG, GIF - Max 32MB each</p>
+                <input type="file" id="file-input" multiple accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+            </div>
+            
+            <div id="upload-preview" class="grid grid-cols-4 gap-2 mb-4"></div>
+            
+            <div id="upload-progress" class="hidden mb-4">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="progress-text" class="text-brand-textMuted text-xs mt-2">Preparing upload...</p>
+            </div>
+            
+            <button onclick="uploadToImgBB()" class="w-full bg-brand-gold text-black py-3 rounded hover:bg-brand-goldHover font-medium">
+                <i class="fa-solid fa-upload mr-2"></i> Upload Images
+            </button>
+            
+            <div class="border-t border-white/10 mt-6 pt-6">
+                <h4 class="text-white mb-3 font-medium">📋 Manage Images</h4>
+                <div class="flex gap-2 mb-4 flex-wrap">
+                    <button onclick="showManageImages('bedroom')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🛏️ Beds</button>
+                    <button onclick="showManageImages('livingroom')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🛋️ Sofas</button>
+                    <button onclick="showManageImages('dining')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🍽️ Dining</button>
+                    <button onclick="showManageImages('office')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">💼 Office</button>
+                </div>
+                <div id="manage-images" class="grid grid-cols-3 gap-2 max-h-60 overflow-y-auto"></div>
+            </div>
+            
+            <button onclick="closeAdminPanel()" class="w-full text-brand-textMuted text-sm mt-4 hover:text-white">Close Panel</button>
+        </div>
+    </div>
+
     <!-- HERO SECTION -->
     <section id="home-section" class="relative min-h-[calc(100vh-6rem)] flex items-center bg-black overflow-hidden">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1920" alt="Luxury Living Room" class="w-full h-full object-cover object-center opacity-60">
-            <div class="absolute inset-0 bg-gradient-to-r from-brand-darkBg via-brand-darkBg/60 to-transparent"></div>
-        </div>
-
+        <div class="absolute inset-0 z-0 bg-gradient-to-r from-brand-darkBg via-brand-darkBg/60 to-transparent"></div>
         <div class="relative z-10 max-w-7xl mx-auto px-6 w-full py-20">
             <div class="max-w-xl">
                 <h1 class="font-serif text-5xl md:text-6xl leading-tight mb-4 tracking-wide">
@@ -135,415 +241,381 @@
         </div>
     </section>
 
-    <!-- TRUST BADGES 1 -->
+    <!-- TRUST BADGES -->
     <section id="home-section2" class="bg-[#0f0f0f] border-y border-white/5 py-10">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-award text-2xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-sm font-semibold tracking-wide">Premium Quality</h4>
-                    <p class="text-xs text-brand-textMuted mt-1">Finest materials, built to last.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-compass-drafting text-2xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-sm font-semibold tracking-wide">Custom Made</h4>
-                    <p class="text-xs text-brand-textMuted mt-1">Furniture tailored to your style.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-truck text-2xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-sm font-semibold tracking-wide">Free Delivery</h4>
-                    <p class="text-xs text-brand-textMuted mt-1">Fast & reliable delivery.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-shield-halved text-2xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-sm font-semibold tracking-wide">Secure Payment</h4>
-                    <p class="text-xs text-brand-textMuted mt-1">100% secure & trusted.</p>
-                </div>
-            </div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-award text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Premium Quality</h4><p class="text-xs text-brand-textMuted mt-1">Finest materials, built to last.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-compass-drafting text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Custom Made</h4><p class="text-xs text-brand-textMuted mt-1">Furniture tailored to your style.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-truck text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Free Delivery</h4><p class="text-xs text-brand-textMuted mt-1">Fast & reliable delivery.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-shield-halved text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Secure Payment</h4><p class="text-xs text-brand-textMuted mt-1">100% secure & trusted.</p></div></div>
         </div>
     </section>
 
     <!-- SHOP BY CATEGORY -->
     <section id="home-section3" class="max-w-7xl mx-auto px-6 py-24">
         <h2 class="font-serif text-3xl text-center tracking-wide gold-underline mb-16">Shop By Category</h2>
-        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Bedroom -->
             <div class="group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&q=80&w=600" alt="Bedroom" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl">
-                    <i class="fa-solid fa-bed text-brand-gold"></i>
-                </div>
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900 flex items-center justify-center"><i class="fa-solid fa-bed text-6xl text-brand-gold opacity-50"></i></div>
+                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-bed text-brand-gold"></i></div>
                 <h3 class="font-serif text-lg tracking-wide mb-1">Bedroom</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline inline-flex items-center space-x-1" onclick="showCollection('bedroom')">
-                    <span>View Collection</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                </a>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('bedroom'); return false;">View Beds <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
             </div>
-
-            <!-- Living Room -->
             <div class="group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=600" alt="Living Room" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl">
-                    <i class="fa-solid fa-couch text-brand-gold"></i>
-                </div>
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900 flex items-center justify-center"><i class="fa-solid fa-couch text-6xl text-brand-gold opacity-50"></i></div>
+                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-couch text-brand-gold"></i></div>
                 <h3 class="font-serif text-lg tracking-wide mb-1">Living Room</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline inline-flex items-center space-x-1" onclick="showCollection('livingroom')">
-                    <span>View Collection</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                </a>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('livingroom'); return false;">View Sofas <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
             </div>
-
-            <!-- Dining Room -->
             <div class="group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img src="https://images.unsplash.com/photo-1617806118233-18e1db207f62?auto=format&fit=crop&q=80&w=600" alt="Dining Room" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl">
-                    <i class="fa-solid fa-chair text-brand-gold"></i>
-                </div>
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900 flex items-center justify-center"><i class="fa-solid fa-chair text-6xl text-brand-gold opacity-50"></i></div>
+                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-chair text-brand-gold"></i></div>
                 <h3 class="font-serif text-lg tracking-wide mb-1">Dining Room</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline inline-flex items-center space-x-1" onclick="showCollection('dining')">
-                    <span>View Collection</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                </a>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('dining'); return false;">View Dining <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
             </div>
-
-            <!-- Office -->
             <div class="group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=600" alt="Office" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80">
-                </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl">
-                    <i class="fa-solid fa-briefcase text-brand-gold"></i>
-                </div>
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900 flex items-center justify-center"><i class="fa-solid fa-briefcase text-6xl text-brand-gold opacity-50"></i></div>
+                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-briefcase text-brand-gold"></i></div>
                 <h3 class="font-serif text-lg tracking-wide mb-1">Office</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline inline-flex items-center space-x-1" onclick="showCollection('office')">
-                    <span>View Collection</span> <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                </a>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('office'); return false;">View Office <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
             </div>
         </div>
     </section>
 
-    <!-- CUSTOM FURNITURE BANNER -->
-    <section id="home-section4" class="max-w-7xl mx-auto px-6 mb-24">
-        <div class="grid grid-cols-1 md:grid-cols-12 bg-brand-cardBg border border-white/5 items-center rounded-sm overflow-hidden">
-            <div class="md:col-span-5 p-8 md:p-12 lg:p-16">
-                <h2 class="font-serif text-3xl tracking-wide mb-4">Custom Furniture</h2>
-                <p class="text-brand-textMuted text-sm leading-relaxed mb-8">
-                    Bring your vision to life with our custom-made furniture.
-                </p>
-                <a href="#" class="inline-flex items-center space-x-3 bg-brand-gold hover:bg-brand-goldHover text-black px-6 py-3 text-xs font-medium tracking-wider transition rounded-sm">
-                    <span>Get Started</span>
-                    <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                </a>
-            </div>
-            <div class="md:col-span-7 h-64 md:h-full min-h-[320px] relative bg-neutral-900">
-                <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=1200" alt="Craftsmanship" class="w-full h-full object-cover opacity-90">
-            </div>
-        </div>
-    </section>
-
-    <!-- FEATURED PRODUCTS -->
-    <section id="home-section5" class="max-w-7xl mx-auto px-6 py-12">
-        <h2 class="font-serif text-3xl text-center tracking-wide gold-underline mb-16">Featured Products</h2>
-        
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Product 1 -->
-            <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                <div>
-                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&q=80&w=600" alt="Luxurious Comfort Sofa" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition duration-300">
-                    </div>
-                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90">Luxurious Comfort Sofa</h3>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                <div>
-                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                        <img src="https://images.unsplash.com/photo-1505693395321-883724634266?auto=format&fit=crop&q=80&w=600" alt="Royal King Bed" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition duration-300">
-                    </div>
-                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90">Royal King Bed</h3>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                <div>
-                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                        <img src="https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&q=80&w=600" alt="Classic Dining Table" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition duration-300">
-                    </div>
-                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90">Classic Dining Table (6 Seater)</h3>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                <div>
-                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                        <img src="https://images.unsplash.com/photo-1505797149-43b0069ec26b?auto=format&fit=crop&q=80&w=600" alt="Executive Office Desk" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition duration-300">
-                    </div>
-                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90">Executive Office Desk</h3>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== COLLECTION SECTIONS ===== -->
-    
-    <!-- BEDROOM COLLECTION - Only Beds -->
+    <!-- COLLECTION SECTIONS -->
     <div id="bedroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">Bedroom Collection</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Home
-            </button>
+            <h2 class="font-serif text-3xl tracking-wide gold-underline">🛏️ Bedroom Collection - Beds Only</h2>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         </div>
         <div class="product-grid" id="bedroom-products"></div>
     </div>
 
-    <!-- LIVING ROOM COLLECTION - Only Sofas & Couches -->
     <div id="livingroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">Living Room Collection</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Home
-            </button>
+            <h2 class="font-serif text-3xl tracking-wide gold-underline">🛋️ Living Room - Sofas & Couches Only</h2>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         </div>
         <div class="product-grid" id="livingroom-products"></div>
     </div>
 
-    <!-- DINING COLLECTION - Only Dining Tables & Chairs -->
     <div id="dining-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">Dining Room Collection</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Home
-            </button>
+            <h2 class="font-serif text-3xl tracking-wide gold-underline">🍽️ Dining Room - Tables & Chairs Only</h2>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         </div>
         <div class="product-grid" id="dining-products"></div>
     </div>
 
-    <!-- OFFICE COLLECTION - Only Office Desks & Chairs -->
     <div id="office-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">Office Collection</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Home
-            </button>
+            <h2 class="font-serif text-3xl tracking-wide gold-underline">💼 Office - Desks & Chairs Only</h2>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
         </div>
         <div class="product-grid" id="office-products"></div>
     </div>
 
-    <!-- CEO CONTACT SECTION -->
-    <section class="max-w-7xl mx-auto px-6 py-8 border-t border-white/5">
+    <!-- CEO WHATSAPP CONTACT -->
+    <section id="ceo-contact" class="max-w-7xl mx-auto px-6 py-8 border-t border-white/5">
         <div class="bg-brand-cardBg border border-white/5 rounded-sm p-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-4">
-                <i class="fa-solid fa-phone text-2xl text-brand-gold"></i>
+                <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+                    <i class="fa-brands fa-whatsapp text-2xl text-green-400"></i>
+                </div>
                 <div>
                     <p class="text-xs text-brand-textMuted">Contact CEO - Tochukwu</p>
                     <p class="text-lg font-semibold text-brand-gold">09135357118</p>
                 </div>
             </div>
-            <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-goldHover text-black px-6 py-3 text-sm font-medium tracking-wider transition rounded-sm">
-                <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+            <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 text-sm font-medium tracking-wider transition rounded-sm">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Chat on WhatsApp
             </a>
         </div>
     </section>
 
-    <!-- TRUST BADGES 2 / FOOTER NOTE -->
+    <!-- FOOTER -->
     <footer class="bg-[#0b0b0b] border-t border-white/5 py-12 mt-8">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-couch text-xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-xs font-semibold tracking-wide text-brand-gold">Timeless Design</h4>
-                    <p class="text-[11px] text-brand-textMuted mt-1">Elegant pieces for every space.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-hammer text-xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-xs font-semibold tracking-wide text-brand-gold">Expert Craftsmanship</h4>
-                    <p class="text-[11px] text-brand-textMuted mt-1">Built with precision and care.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-face-smile text-xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-xs font-semibold tracking-wide text-brand-gold">Customer Satisfaction</h4>
-                    <p class="text-[11px] text-brand-textMuted mt-1">We put our customers first.</p>
-                </div>
-            </div>
-            <div class="flex items-start space-x-4">
-                <i class="fa-solid fa-leaf text-xl text-brand-gold mt-1"></i>
-                <div>
-                    <h4 class="text-xs font-semibold tracking-wide text-brand-gold">Sustainable Materials</h4>
-                    <p class="text-[11px] text-brand-textMuted mt-1">Good for you and the planet.</p>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mb-8">
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-couch text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Timeless Design</h4><p class="text-[11px] text-brand-textMuted mt-1">Elegant pieces for every space.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-hammer text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Expert Craftsmanship</h4><p class="text-[11px] text-brand-textMuted mt-1">Built with precision and care.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-face-smile text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Customer Satisfaction</h4><p class="text-[11px] text-brand-textMuted mt-1">We put our customers first.</p></div></div>
+            <div class="flex items-start space-x-4"><i class="fa-solid fa-leaf text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Sustainable Materials</h4><p class="text-[11px] text-brand-textMuted mt-1">Good for you and the planet.</p></div></div>
         </div>
-        <div class="max-w-7xl mx-auto px-6 mt-8 pt-8 border-t border-white/5 text-center text-xs text-brand-textMuted">
-            <p>© 2026 TCWF - Classic World Furniture. All rights reserved.</p>
-            <p class="mt-1">CEO: Tochukwu | <span class="text-brand-gold">09135357118</span></p>
+        
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-center">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
+                <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span class="text-sm">Chat with CEO on WhatsApp</span>
+                </a>
+                <span class="text-brand-textMuted hidden md:block">|</span>
+                <a href="tel:09135357118" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-goldHover transition">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="text-sm">09135357118</span>
+                </a>
+            </div>
+            <p class="text-xs text-brand-textMuted">© 2026 TCWF - Classic World Furniture. All rights reserved.</p>
+            <p class="text-xs text-brand-textMuted mt-1">CEO: Tochukwu | <span class="text-brand-gold">09135357118</span></p>
         </div>
     </footer>
 
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/2349135357118" target="_blank" class="whatsapp-float" title="Chat with CEO on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <script>
-        // BEDROOM products - ONLY beds
-        const bedroomProducts = [
-            'Luxury King Bed', 'Queen Bed Frame', 'Single Bed', 'Bunk Bed', 'Trundle Bed',
-            'Platform Bed', 'Sleigh Bed', 'Canopy Bed', 'Daybed', 'Murphy Bed',
-            'Storage Bed', 'Upholstered Bed', 'Wooden Bed Frame', 'Metal Bed Frame', 'Leather Bed',
-            'Adjustable Bed', 'Hydraulic Bed', 'Ottoman Bed', 'Four Poster Bed', 'Panel Bed',
-            'Divan Bed', 'Futon Bed', 'Sofa Bed', 'Bunk Bed with Storage', 'Triple Bunk Bed',
-            'King Size Bed', 'Queen Size Bed', 'Double Bed', 'Twin Bed', 'California King Bed',
-            'Antique Bed Frame', 'Modern Bed Frame', 'Minimalist Bed', 'Luxury Bed Set', 'Bed with Headboard',
-            'Bed with Footboard', 'Canopy Bed with Drapes', 'Sleigh Bed with Storage', 'Platform Bed with Drawers',
-            'Upholstered Bed Frame', 'Leather Bed Frame', 'Velvet Bed Frame', 'Linen Bed Frame', 'Cotton Bed Frame',
-            'Bed with Mattress', 'Bed Frame Only', 'Headboard Only', 'Footboard Only', 'Bed Base'
-        ];
-
-        // LIVING ROOM products - ONLY sofas and couches
-        const livingroomProducts = [
-            'Luxury Sofa Set', 'Sectional Sofa', 'L-Shape Sofa', 'U-Shape Sofa', 'Loveseat Sofa',
-            'Recliner Sofa', 'Leather Sofa', 'Fabric Sofa', 'Velvet Sofa', 'Linen Sofa',
-            'Modern Sofa', 'Classic Sofa', 'Minimalist Sofa', 'Scandinavian Sofa', 'Italian Sofa',
-            'Corner Sofa', 'Chaise Sofa', 'Sleeper Sofa', 'Convertible Sofa', 'Modular Sofa',
-            'Armchair', 'Accent Chair', 'Recliner Chair', 'Swivel Chair', 'Rocking Chair',
-            'Lounge Chair', 'Club Chair', 'Wingback Chair', 'Tub Chair', 'Barrel Chair',
-            'Sofa Bed', 'Futon', 'Daybed', 'Chaise Lounge', 'Ottoman',
-            'Loveseat', 'Settee', 'Bench', 'Stool', 'Pouf',
-            'Leather Recliner', 'Massage Chair', 'Electric Recliner', 'Manual Recliner', 'Wall Hugger Recliner',
-            'Double Recliner', 'Triple Recliner', 'Recliner Set', 'Sofa Set', 'Living Room Set'
-        ];
-
-        // DINING products - ONLY dining tables and chairs
-        const diningProducts = [
-            'Dining Table Set', 'Round Dining Table', 'Rectangular Table', 'Square Table', 'Oval Table',
-            'Extendable Table', 'Folding Table', 'Glass Table', 'Wood Table', 'Marble Table',
-            'Dining Chairs Set', 'Wooden Chairs', 'Upholstered Chairs', 'Leather Chairs', 'Velvet Chairs',
-            'Bar Stools', 'Counter Stools', 'Bench Seating', 'Banquette', 'Dining Bench',
-            '6 Seater Table', '8 Seater Table', '10 Seater Table', '12 Seater Table', '4 Seater Table',
-            'Modern Dining Set', 'Classic Dining Set', 'Minimalist Dining Set', 'Scandinavian Set', 'Italian Set',
-            'Breakfast Table', 'Kitchen Table', 'Nook Table', 'Diner Table', 'Cafe Table',
-            'Dining Chair', 'Armchair Dining', 'Side Chair', 'Host Chair', 'Captain Chair',
-            'Occasional Table', 'Side Table', 'Console Table', 'Buffet Table', 'Sideboard',
-            'Glass Dining Set', 'Wood Dining Set', 'Metal Dining Set', 'Rattan Dining Set', 'Wicker Dining Set'
-        ];
-
-        // OFFICE products - ONLY office desks and chairs
-        const officeProducts = [
-            'Executive Desk', 'Office Desk', 'L-Shape Desk', 'U-Shape Desk', 'Corner Desk',
-            'Standing Desk', 'Adjustable Desk', 'Wooden Desk', 'Glass Desk', 'Metal Desk',
-            'Office Chair', 'Executive Chair', 'Ergonomic Chair', 'Mesh Chair', 'Leather Chair',
-            'Swivel Chair', 'Rolling Chair', 'High Back Chair', 'Mid Back Chair', 'Task Chair',
-            'Conference Table', 'Meeting Table', 'Boardroom Table', 'Training Table', 'Folding Table',
-            'Bookshelf', 'Filing Cabinet', 'Storage Cabinet', 'Office Partition', 'Privacy Screen',
-            'Desk Organizer', 'Monitor Stand', 'Keyboard Tray', 'Cable Management', 'Desk Lamp',
-            'Whiteboard', 'Pin Board', 'Notice Board', 'Calendar Board', 'Message Board',
-            'Office Stool', 'Guest Chair', 'Visitor Chair', 'Waiting Chair', 'Lounge Chair',
-            'Reception Desk', 'Counter Table', 'Workstation', 'Cubicle', 'Office Set'
-        ];
-
-        const imgUrls = [
-            'https://images.unsplash.com/photo-1555041469-a586c61ea9bc',
-            'https://images.unsplash.com/photo-1505693395321-883724634266',
-            'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf',
-            'https://images.unsplash.com/photo-1505797149-43b0069ec26b',
-            'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0',
-            'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6',
-            'https://images.unsplash.com/photo-1533090161767-e6ffed986c88',
-            'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85',
-            'https://images.unsplash.com/photo-1617806118233-18e1db207f62',
-            'https://images.unsplash.com/photo-1524758631624-e2822e304c36'
-        ];
-
-        // Generate products for a specific category
-        function generateProductsForCategory(productList, count = 200) {
-            const products = [];
-            for (let i = 0; i < count; i++) {
-                const nameIndex = i % productList.length;
-                const imgIndex = i % imgUrls.length;
-                const variant = Math.floor(i / productList.length) + 1;
-                products.push({
-                    name: `${productList[nameIndex]} ${variant > 1 ? `(Variant ${variant})` : ''}`,
-                    img: `${imgUrls[imgIndex]}?auto=format&fit=crop&q=80&w=400&h=300&random=${i}`
-                });
-            }
-            return products;
+        // ============================================
+        // MAIN SCRIPT
+        // ============================================
+        
+        let isAdmin = false;
+        let selectedFiles = [];
+        
+        // Initialize storage
+        if (!localStorage.getItem('tcwf_bedroom')) localStorage.setItem('tcwf_bedroom', JSON.stringify([]));
+        if (!localStorage.getItem('tcwf_livingroom')) localStorage.setItem('tcwf_livingroom', JSON.stringify([]));
+        if (!localStorage.getItem('tcwf_dining')) localStorage.setItem('tcwf_dining', JSON.stringify([]));
+        if (!localStorage.getItem('tcwf_office')) localStorage.setItem('tcwf_office', JSON.stringify([]));
+        
+        function getImages(category) {
+            return JSON.parse(localStorage.getItem('tcwf_' + category) || '[]');
         }
-
-        // Render collection
-        function renderCollection(containerId, productList) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+        
+        function saveImages(category, images) {
+            localStorage.setItem('tcwf_' + category, JSON.stringify(images));
+        }
+        
+        // Upload to ImgBB
+        async function uploadToImgBB() {
+            if (selectedFiles.length === 0) {
+                alert('⚠️ Please select images first!');
+                return;
+            }
             
-            const products = generateProductsForCategory(productList);
-            container.innerHTML = products.map((product) => `
-                <div class="group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                    <div>
-                        <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                            <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-102 transition duration-300" loading="lazy">
-                        </div>
-                        <h3 class="text-xs font-medium tracking-wide px-1 text-white/90 line-clamp-2">${product.name}</h3>
-                    </div>
+            const category = document.getElementById('upload-category').value;
+            const progressBar = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const uploadProgress = document.getElementById('upload-progress');
+            
+            uploadProgress.classList.remove('hidden');
+            
+            let uploadedCount = 0;
+            const existingImages = getImages(category);
+            
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                try {
+                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        existingImages.push({
+                            id: Date.now() + Math.random(),
+                            url: data.data.url,
+                            thumb: data.data.thumb.url,
+                            name: file.name.replace(/\.[^/.]+$/, ""),
+                            date: new Date().toISOString()
+                        });
+                        uploadedCount++;
+                    }
+                    
+                    const progress = ((i + 1) / selectedFiles.length) * 100;
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = `✅ Uploaded ${i + 1} of ${selectedFiles.length}: ${file.name}`;
+                    
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    progressText.textContent = `❌ Failed: ${file.name}`;
+                }
+            }
+            
+            saveImages(category, existingImages);
+            
+            uploadProgress.classList.add('hidden');
+            progressBar.style.width = '0%';
+            selectedFiles = [];
+            document.getElementById('upload-preview').innerHTML = '';
+            document.getElementById('file-input').value = '';
+            
+            alert(`✅ Successfully uploaded ${uploadedCount} images!`);
+            showCollection(category);
+            showManageImages(category);
+        }
+        
+        // Handle file selection
+        function handleFileSelect(event) {
+            selectedFiles = Array.from(event.target.files);
+            const preview = document.getElementById('upload-preview');
+            
+            preview.innerHTML = selectedFiles.map((file, index) => {
+                const url = URL.createObjectURL(file);
+                return `
+                    <div class="relative">
+                        <img src="${url}" class="w-full h-20 object-cover rounded" alt="Preview ${index + 1}">
+                        <span class="absolute bottom-1 left-1 bg-black/70 text-white text-[10px] px-1 rounded">${index + 1}</span>
+                    </div>`;
+            }).join('');
+        }
+        
+        // Show manage images
+        function showManageImages(category) {
+            const container = document.getElementById('manage-images');
+            const images = getImages(category);
+            
+            if (images.length === 0) {
+                container.innerHTML = '<p class="text-brand-textMuted text-sm col-span-full text-center py-4">No images uploaded yet</p>';
+                return;
+            }
+            
+            container.innerHTML = images.map(img => `
+                <div class="relative">
+                    <img src="${img.thumb || img.url}" class="w-full h-20 object-cover rounded" alt="${img.name}" loading="lazy">
+                    <button class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center hover:bg-red-700" onclick="deleteImage('${category}', ${img.id})" title="Delete">×</button>
+                    <p class="text-[10px] text-brand-textMuted truncate mt-1">${img.name}</p>
                 </div>
             `).join('');
         }
-
+        
+        // Delete image
+        function deleteImage(category, id) {
+            if (confirm('🗑️ Delete this image?')) {
+                let images = getImages(category);
+                images = images.filter(img => img.id !== id);
+                saveImages(category, images);
+                showManageImages(category);
+                
+                const containerMap = {
+                    bedroom: 'bedroom-products',
+                    livingroom: 'livingroom-products',
+                    dining: 'dining-products',
+                    office: 'office-products'
+                };
+                if (containerMap[category]) {
+                    renderCollection(containerMap[category], category);
+                }
+            }
+        }
+        
+        // Admin login
+        function adminLogin() {
+            const password = document.getElementById('admin-password').value;
+            if (password === CONFIG.ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('login-modal').classList.remove('active');
+                document.getElementById('admin-panel').classList.add('active');
+                document.getElementById('login-error').classList.add('hidden');
+                document.getElementById('admin-password').value = '';
+                showManageImages('bedroom');
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+                document.getElementById('admin-password').value = '';
+            }
+        }
+        
+        function closeAdminPanel() {
+            document.getElementById('admin-panel').classList.remove('active');
+        }
+        
+        function openLoginModal() {
+            if (isAdmin) {
+                document.getElementById('admin-panel').classList.add('active');
+                showManageImages('bedroom');
+            } else {
+                document.getElementById('login-modal').classList.add('active');
+                document.getElementById('login-error').classList.add('hidden');
+            }
+        }
+        
+        // Render collection
+        function renderCollection(containerId, category) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            
+            const images = getImages(category);
+            
+            if (images.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <i class="fa-solid fa-image text-5xl text-brand-gold opacity-50 mb-4 block"></i>
+                        <p class="text-brand-textMuted text-lg">No images uploaded yet</p>
+                    </div>`;
+                return;
+            }
+            
+            container.innerHTML = images.map(img => `
+                <div class="image-card group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
+                        <img src="${img.url}" alt="${img.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-300" loading="lazy">
+                    </div>
+                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90 line-clamp-2">${img.name.replace(/[-_]/g, ' ')}</h3>
+                </div>
+            `).join('');
+        }
+        
         // Show collection
         function showCollection(category) {
-            // Hide all sections
             document.querySelectorAll('.collection-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('home-section').style.display = 'none';
-            document.getElementById('home-section2').style.display = 'none';
-            document.getElementById('home-section3').style.display = 'none';
-            document.getElementById('home-section4').style.display = 'none';
-            document.getElementById('home-section5').style.display = 'none';
+            ['home-section', 'home-section2', 'home-section3', 'ceo-contact'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
             
-            // Show the selected collection
-            const collectionMap = {
-                bedroom: { id: 'bedroom-collection', products: bedroomProducts, container: 'bedroom-products' },
-                livingroom: { id: 'livingroom-collection', products: livingroomProducts, container: 'livingroom-products' },
-                dining: { id: 'dining-collection', products: diningProducts, container: 'dining-products' },
-                office: { id: 'office-collection', products: officeProducts, container: 'office-products' }
+            const config = {
+                bedroom: { sectionId: 'bedroom-collection', containerId: 'bedroom-products' },
+                livingroom: { sectionId: 'livingroom-collection', containerId: 'livingroom-products' },
+                dining: { sectionId: 'dining-collection', containerId: 'dining-products' },
+                office: { sectionId: 'office-collection', containerId: 'office-products' }
             };
             
-            const data = collectionMap[category];
-            if (data) {
-                const el = document.getElementById(data.id);
-                el.classList.add('active');
-                renderCollection(data.container, data.products);
+            const cfg = config[category];
+            if (cfg) {
+                document.getElementById(cfg.sectionId).classList.add('active');
+                renderCollection(cfg.containerId, category);
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
+        
         // Show home
         function showHome() {
             document.querySelectorAll('.collection-section').forEach(el => el.classList.remove('active'));
             document.getElementById('home-section').style.display = 'flex';
             document.getElementById('home-section2').style.display = 'block';
             document.getElementById('home-section3').style.display = 'block';
-            document.getElementById('home-section4').style.display = 'block';
-            document.getElementById('home-section5').style.display = 'block';
+            document.getElementById('ceo-contact').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Initialize - show home
+        
+        // Close modals on background click
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+        
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             showHome();
         });
+        
+        // Global functions
+        window.showCollection = showCollection;
+        window.showHome = showHome;
+        window.adminLogin = adminLogin;
+        window.openLoginModal = openLoginModal;
+        window.closeAdminPanel = closeAdminPanel;
+        window.uploadToImgBB = uploadToImgBB;
+        window.handleFileSelect = handleFileSelect;
+        window.deleteImage = deleteImage;
+        window.showManageImages = showManageImages;
     </script>
 </body>
 </html>
