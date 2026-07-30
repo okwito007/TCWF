@@ -6,7 +6,7 @@
     <title>TCWF | Classic World Furniture</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -14,16 +14,45 @@
                 extend: {
                     colors: {
                         brand: {
-                            gold: '#bfa15f',
-                            goldHover: '#aa8b4c',
-                            darkBg: '#0b0b0b',
-                            cardBg: '#121212',
-                            textMuted: '#9e9e9e'
+                            gold: '#c9a84c',
+                            goldLight: '#d4b86a',
+                            goldDark: '#a88a2e',
+                            goldHover: '#b8943a',
+                            darkBg: '#080808',
+                            darkSecondary: '#0d0d0d',
+                            cardBg: '#111111',
+                            cardBorder: '#1a1a1a',
+                            textMuted: '#8a8a8a',
+                            textLight: '#b0b0b0'
                         }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'fadeIn': 'fadeIn 0.4s ease-out',
+                        'slideUp': 'slideUp 0.5s ease-out',
+                        'scaleIn': 'scaleIn 0.3s ease-out',
+                        'shimmer': 'shimmer 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        scaleIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        },
                     }
                 }
             }
@@ -38,88 +67,360 @@
     </script>
     
     <style>
-        body { background-color: #0b0b0b; color: #ffffff; }
-        .gold-underline::after { content: ''; display: block; width: 40px; height: 2px; background-color: #bfa15f; margin: 12px auto 0; }
-        .collection-section { display: none; }
-        .collection-section.active { display: block; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
-        @media (max-width: 640px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #d4b86a;
+            --dark: #080808;
+        }
         
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: #080808;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c9a84c;
+            border-radius: 3px;
+        }
+        
+        /* Gold gradient text */
+        .gold-text {
+            background: linear-gradient(135deg, #d4b86a 0%, #c9a84c 30%, #f5d782 50%, #a88a2e 70%, #c9a84c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* Gold underline */
+        .gold-underline::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+            margin: 14px auto 0;
+            border-radius: 2px;
+        }
+        
+        /* Logo styles */
+        .logo-main {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            background: linear-gradient(180deg, #f5d782 0%, #c9a84c 40%, #a88a2e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 2px 4px rgba(201,168,76,0.3));
+            position: relative;
+        }
+        
+        .logo-subtitle {
+            letter-spacing: 0.35em;
+            font-weight: 700;
+        }
+        
+        /* Logo border glow */
+        .logo-border {
+            border: 2.5px solid #c9a84c;
+            box-shadow: 0 0 20px rgba(201,168,76,0.15), 0 0 40px rgba(201,168,76,0.05), inset 0 0 20px rgba(201,168,76,0.03);
+            border-radius: 4px;
+            transition: all 0.4s ease;
+        }
+        .logo-border:hover {
+            box-shadow: 0 0 30px rgba(201,168,76,0.25), 0 0 60px rgba(201,168,76,0.1), inset 0 0 30px rgba(201,168,76,0.05);
+        }
+        
+        /* Card hover effects */
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.2);
+        }
+        .product-card:hover img {
+            transform: scale(1.06);
+        }
+        .product-card img {
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        /* Category card */
+        .category-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.25);
+        }
+        
+        /* Collection sections */
+        .collection-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .collection-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.75rem;
+        }
+        @media (max-width: 640px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+        }
+        
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.9);
             z-index: 10000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
         
         .modal-content {
-            background: #1a1a1a;
-            border: 2px solid #bfa15f;
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 520px;
+            width: 92%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7);
         }
         
+        /* Full Screen Image Viewer */
+        .image-viewer-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+        .image-viewer-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .image-viewer-overlay img {
+            max-width: 92%;
+            max-height: 92vh;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,168,76,0.15);
+            cursor: default;
+            animation: scaleIn 0.4s ease-out;
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .image-viewer-close {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 36px;
+            cursor: pointer;
+            z-index: 100000;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .image-viewer-close:hover {
+            background: rgba(255,255,255,0.15);
+            transform: rotate(90deg);
+        }
+        .image-viewer-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 100000;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .image-viewer-nav:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        .image-viewer-prev {
+            left: 20px;
+        }
+        .image-viewer-next {
+            right: 20px;
+        }
+        
+        /* Upload area */
         .upload-area {
-            border: 2px dashed #bfa15f;
-            border-radius: 8px;
-            padding: 30px;
+            border: 2px dashed #c9a84c;
+            border-radius: 12px;
+            padding: 32px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            background: rgba(201,168,76,0.02);
         }
-        .upload-area:hover { background: rgba(191,161,95,0.1); }
+        .upload-area:hover {
+            background: rgba(201,168,76,0.06);
+            border-color: #d4b86a;
+        }
         
         .progress-bar {
             width: 100%;
-            height: 6px;
-            background: #333;
-            border-radius: 3px;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 2px;
             margin-top: 10px;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
-            background: #bfa15f;
+            background: linear-gradient(90deg, #a88a2e, #c9a84c, #d4b86a);
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.4s ease;
+            border-radius: 2px;
         }
         
-        .image-card { position: relative; }
-        
+        /* WhatsApp float button */
         .whatsapp-float {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 28px;
+            right: 28px;
             background: #25D366;
             color: white;
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+            font-size: 28px;
+            box-shadow: 0 8px 25px rgba(37,211,102,0.35);
             z-index: 999;
-            transition: transform 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
             text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        .whatsapp-float:hover { transform: scale(1.1); }
+        .whatsapp-float:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 35px rgba(37,211,102,0.5);
+        }
         
+        /* Hero background */
         .hero-bg {
             background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1920');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
+        }
+        
+        /* Button hover */
+        .btn-gold {
+            background: linear-gradient(135deg, #a88a2e, #c9a84c);
+            border: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #c9a84c, #d4b86a);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(201,168,76,0.3);
+        }
+        .btn-gold::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        /* Nav link hover */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #c9a84c;
+            transition: width 0.3s ease;
+            border-radius: 1px;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active::after {
+            width: 100%;
         }
         
         /* Category card image */
@@ -127,37 +428,35 @@
             width: 100%;
             aspect-ratio: 4/5;
             object-fit: cover;
-            transition: transform 0.5s;
-        }
-        .category-card:hover .category-card-img {
-            transform: scale(1.05);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-brand-gold selection:text-black">
+<body class="font-sans antialiased">
 
     <!-- HEADER -->
-    <header class="border-b border-white/5 bg-brand-darkBg/90 backdrop-blur-md sticky top-0 z-40">
+    <header class="border-b border-white/[0.04] bg-[#080808]/95 backdrop-blur-xl sticky top-0 z-40 transition-all">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <a href="#" class="flex flex-col items-center" onclick="showHome(); return false;">
-                <span class="font-serif text-3xl tracking-[0.15em] text-brand-gold border-2 border-brand-gold px-4 py-1 font-black rounded-sm">TCWF</span>
-                <span class="text-[9px] uppercase tracking-[0.3em] text-brand-gold mt-1.5 font-bold">Classic World Furniture</span>
+            <!-- PREMIUM LOGO -->
+            <a href="#" class="flex flex-col items-center group" onclick="showHome(); return false;">
+                <span class="logo-main text-3xl logo-border px-5 py-1.5 inline-block">TCWF</span>
+                <span class="logo-subtitle text-[10px] uppercase text-brand-gold mt-2 tracking-[0.35em] font-bold opacity-90 group-hover:opacity-100 transition-opacity">Classic World Furniture</span>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide">
-                <a href="#" class="text-brand-gold border-b border-brand-gold pb-1" onclick="showHome(); return false;">Home</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('bedroom'); return false;">Beds</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('livingroom'); return false;">Sofas</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('dining'); return false;">Dining</a>
-                <a href="#" class="text-white/80 hover:text-brand-gold transition" onclick="showCollection('office'); return false;">Office</a>
+            <nav class="hidden md:flex items-center space-x-10 text-sm font-medium tracking-wide">
+                <a href="#" class="nav-link active text-brand-gold" onclick="showHome(); return false;">Home</a>
+                <a href="#" class="nav-link text-white/75 hover:text-brand-gold transition" onclick="showCollection('bedroom'); return false;">Beds</a>
+                <a href="#" class="nav-link text-white/75 hover:text-brand-gold transition" onclick="showCollection('livingroom'); return false;">Sofas</a>
+                <a href="#" class="nav-link text-white/75 hover:text-brand-gold transition" onclick="showCollection('dining'); return false;">Dining</a>
+                <a href="#" class="nav-link text-white/75 hover:text-brand-gold transition" onclick="showCollection('office'); return false;">Office</a>
             </nav>
 
-            <div class="flex items-center space-x-6 text-white/90">
-                <button onclick="openLoginModal()" class="hover:text-brand-gold transition text-xs border border-brand-gold/50 px-3 py-1.5 rounded">
-                    <i class="fa-solid fa-lock mr-1"></i> Admin
+            <div class="flex items-center space-x-5 text-white/85">
+                <button onclick="openLoginModal()" class="hover:text-brand-gold transition text-xs border border-brand-gold/40 px-4 py-2 rounded-md hover:border-brand-gold hover:bg-brand-gold/5">
+                    <i class="fa-solid fa-lock mr-1.5"></i> Admin
                 </button>
-                <a href="https://wa.me/2349135357118" target="_blank" class="hover:text-green-400 transition">
-                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                <a href="https://wa.me/2349135357118" target="_blank" class="hover:text-green-400 transition text-lg">
+                    <i class="fa-brands fa-whatsapp"></i>
                 </a>
             </div>
         </div>
@@ -165,194 +464,194 @@
 
     <!-- LOGIN MODAL -->
     <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <h3 class="text-brand-gold text-2xl font-serif mb-4">🔐 Admin Login</h3>
-            <p class="text-brand-textMuted text-sm mb-4">Enter admin password</p>
-            <input type="password" id="admin-password" placeholder="Enter password" class="w-full bg-black border border-white/20 text-white px-4 py-3 rounded mb-4" onkeypress="if(event.key==='Enter') adminLogin()">
-            <button onclick="adminLogin()" class="w-full bg-brand-gold text-black py-3 rounded hover:bg-brand-goldHover font-medium">
+        <div class="modal-content animate-scaleIn">
+            <h3 class="text-brand-gold text-2xl font-serif font-bold mb-3">🔐 Admin Access</h3>
+            <p class="text-brand-textMuted text-sm mb-5">Enter password to manage content</p>
+            <input type="password" id="admin-password" placeholder="Password" class="w-full bg-[#0a0a0a] border border-white/10 text-white px-4 py-3.5 rounded-lg mb-4 focus:border-brand-gold focus:outline-none transition" onkeypress="if(event.key==='Enter') adminLogin()">
+            <button onclick="adminLogin()" class="w-full btn-gold text-black py-3.5 rounded-lg font-semibold tracking-wide">
                 <i class="fa-solid fa-right-to-bracket mr-2"></i> Login
             </button>
-            <p id="login-error" class="text-red-400 text-sm mt-3 hidden text-center">❌ Wrong password!</p>
-            <button onclick="document.getElementById('login-modal').classList.remove('active')" class="w-full text-brand-textMuted text-sm mt-3 hover:text-white">Cancel</button>
+            <p id="login-error" class="text-red-400 text-sm mt-3 hidden text-center">❌ Incorrect password</p>
+            <button onclick="document.getElementById('login-modal').classList.remove('active')" class="w-full text-brand-textMuted text-sm mt-4 hover:text-white transition">Cancel</button>
         </div>
     </div>
 
     <!-- ADMIN PANEL -->
     <div id="admin-panel" class="modal">
-        <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-content" style="max-width: 820px;">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-brand-gold text-2xl font-serif">📤 Admin Panel</h3>
-                <button onclick="closeAdminPanel()" class="text-white text-2xl hover:text-red-400">&times;</button>
+                <h3 class="text-brand-gold text-2xl font-serif font-bold">⚙️ Admin Panel</h3>
+                <button onclick="closeAdminPanel()" class="text-white/60 text-2xl hover:text-red-400 transition">&times;</button>
             </div>
             
-            <!-- TABS -->
-            <div class="flex gap-2 mb-6 border-b border-white/10 pb-4">
-                <button onclick="showAdminTab('upload')" id="tab-upload-btn" class="px-4 py-2 bg-brand-gold text-black rounded text-sm font-medium">📤 Upload Products</button>
-                <button onclick="showAdminTab('category')" id="tab-category-btn" class="px-4 py-2 bg-white/10 text-white rounded text-sm hover:bg-white/20">🖼️ Category Images</button>
-                <button onclick="showAdminTab('manage')" id="tab-manage-btn" class="px-4 py-2 bg-white/10 text-white rounded text-sm hover:bg-white/20">📋 Manage</button>
+            <div class="flex gap-2 mb-6 border-b border-white/5 pb-4">
+                <button onclick="showAdminTab('upload')" id="tab-upload-btn" class="px-5 py-2.5 bg-brand-gold text-black rounded-lg text-sm font-semibold">📤 Upload</button>
+                <button onclick="showAdminTab('category')" id="tab-category-btn" class="px-5 py-2.5 bg-white/5 text-white rounded-lg text-sm hover:bg-white/10 transition">🖼️ Categories</button>
+                <button onclick="showAdminTab('manage')" id="tab-manage-btn" class="px-5 py-2.5 bg-white/5 text-white rounded-lg text-sm hover:bg-white/10 transition">📋 Manage</button>
             </div>
             
-            <!-- TAB 1: UPLOAD PRODUCTS -->
             <div id="tab-upload">
-                <div class="mb-6">
-                    <label class="text-white text-sm mb-2 block font-medium">📂 Select Category:</label>
-                    <select id="upload-category" class="w-full bg-black border border-white/20 text-white px-4 py-3 rounded mb-4">
-                        <option value="bedroom">🛏️ Bedroom - Beds Only</option>
-                        <option value="livingroom">🛋️ Living Room - Sofas & Couches Only</option>
-                        <option value="dining">🍽️ Dining - Tables & Chairs Only</option>
-                        <option value="office">💼 Office - Desks & Chairs Only</option>
-                    </select>
-                </div>
+                <label class="text-white text-sm mb-2 block font-medium">Select Category:</label>
+                <select id="upload-category" class="w-full bg-[#0a0a0a] border border-white/10 text-white px-4 py-3 rounded-lg mb-5 focus:border-brand-gold focus:outline-none">
+                    <option value="bedroom">🛏️ Bedroom - Beds Only</option>
+                    <option value="livingroom">🛋️ Living Room - Sofas Only</option>
+                    <option value="dining">🍽️ Dining - Tables & Chairs Only</option>
+                    <option value="office">💼 Office - Desks & Chairs Only</option>
+                </select>
                 
                 <div class="upload-area mb-4" onclick="document.getElementById('file-input').click()">
                     <i class="fa-solid fa-cloud-arrow-up text-4xl text-brand-gold mb-3"></i>
-                    <p class="text-white font-medium">Click to select product images</p>
-                    <p class="text-brand-textMuted text-xs mt-1">Supports JPG, PNG, GIF - Max 32MB each</p>
+                    <p class="text-white font-medium">Click to select images</p>
+                    <p class="text-brand-textMuted text-xs mt-1">JPG, PNG, WEBP • Max 32MB</p>
                     <input type="file" id="file-input" multiple accept="image/*" style="display:none" onchange="handleFileSelect(event)">
                 </div>
                 
                 <div id="upload-preview" class="grid grid-cols-4 gap-2 mb-4"></div>
                 
                 <div id="upload-progress" class="hidden mb-4">
-                    <div class="progress-bar">
-                        <div id="progress-fill" class="progress-fill"></div>
-                    </div>
-                    <p id="progress-text" class="text-brand-textMuted text-xs mt-2">Preparing upload...</p>
+                    <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+                    <p id="progress-text" class="text-brand-textMuted text-xs mt-2">Uploading...</p>
                 </div>
                 
-                <button onclick="uploadToImgBB()" class="w-full bg-brand-gold text-black py-3 rounded hover:bg-brand-goldHover font-medium">
-                    <i class="fa-solid fa-upload mr-2"></i> Upload Product Images
+                <button onclick="uploadToImgBB()" class="w-full btn-gold text-black py-3.5 rounded-lg font-semibold">
+                    <i class="fa-solid fa-upload mr-2"></i> Upload Images
                 </button>
             </div>
             
-            <!-- TAB 2: CATEGORY IMAGES -->
             <div id="tab-category" style="display:none;">
-                <p class="text-white text-sm mb-4">📸 Upload display images for category cards on homepage:</p>
-                
+                <p class="text-white text-sm mb-4">Upload display images for homepage category cards:</p>
                 <div class="grid grid-cols-2 gap-4 mb-4">
-                    <div class="bg-black/50 p-3 rounded text-center">
-                        <p class="text-white text-xs mb-2">🛏️ Bedroom</p>
-                        <img id="preview-bedroom-cat" src="" alt="Bedroom" class="w-full h-32 object-cover rounded mb-2" style="display:none;">
+                    <div class="bg-[#0a0a0a] p-3 rounded-lg text-center border border-white/5">
+                        <p class="text-white text-xs mb-2 font-medium">🛏️ Bedroom</p>
+                        <img id="preview-bedroom-cat" src="" class="w-full h-32 object-cover rounded-lg mb-2" style="display:none;">
                         <input type="file" id="cat-bedroom-input" accept="image/*" style="display:none" onchange="previewCategoryImage('bedroom')">
-                        <button onclick="document.getElementById('cat-bedroom-input').click()" class="text-xs bg-brand-gold text-black px-3 py-1.5 rounded w-full">Choose Image</button>
+                        <button onclick="document.getElementById('cat-bedroom-input').click()" class="text-xs bg-brand-gold text-black px-3 py-2 rounded-lg w-full font-medium">Choose</button>
                     </div>
-                    <div class="bg-black/50 p-3 rounded text-center">
-                        <p class="text-white text-xs mb-2">🛋️ Living Room</p>
-                        <img id="preview-livingroom-cat" src="" alt="Living Room" class="w-full h-32 object-cover rounded mb-2" style="display:none;">
+                    <div class="bg-[#0a0a0a] p-3 rounded-lg text-center border border-white/5">
+                        <p class="text-white text-xs mb-2 font-medium">🛋️ Living Room</p>
+                        <img id="preview-livingroom-cat" src="" class="w-full h-32 object-cover rounded-lg mb-2" style="display:none;">
                         <input type="file" id="cat-livingroom-input" accept="image/*" style="display:none" onchange="previewCategoryImage('livingroom')">
-                        <button onclick="document.getElementById('cat-livingroom-input').click()" class="text-xs bg-brand-gold text-black px-3 py-1.5 rounded w-full">Choose Image</button>
+                        <button onclick="document.getElementById('cat-livingroom-input').click()" class="text-xs bg-brand-gold text-black px-3 py-2 rounded-lg w-full font-medium">Choose</button>
                     </div>
-                    <div class="bg-black/50 p-3 rounded text-center">
-                        <p class="text-white text-xs mb-2">🍽️ Dining</p>
-                        <img id="preview-dining-cat" src="" alt="Dining" class="w-full h-32 object-cover rounded mb-2" style="display:none;">
+                    <div class="bg-[#0a0a0a] p-3 rounded-lg text-center border border-white/5">
+                        <p class="text-white text-xs mb-2 font-medium">🍽️ Dining</p>
+                        <img id="preview-dining-cat" src="" class="w-full h-32 object-cover rounded-lg mb-2" style="display:none;">
                         <input type="file" id="cat-dining-input" accept="image/*" style="display:none" onchange="previewCategoryImage('dining')">
-                        <button onclick="document.getElementById('cat-dining-input').click()" class="text-xs bg-brand-gold text-black px-3 py-1.5 rounded w-full">Choose Image</button>
+                        <button onclick="document.getElementById('cat-dining-input').click()" class="text-xs bg-brand-gold text-black px-3 py-2 rounded-lg w-full font-medium">Choose</button>
                     </div>
-                    <div class="bg-black/50 p-3 rounded text-center">
-                        <p class="text-white text-xs mb-2">💼 Office</p>
-                        <img id="preview-office-cat" src="" alt="Office" class="w-full h-32 object-cover rounded mb-2" style="display:none;">
+                    <div class="bg-[#0a0a0a] p-3 rounded-lg text-center border border-white/5">
+                        <p class="text-white text-xs mb-2 font-medium">💼 Office</p>
+                        <img id="preview-office-cat" src="" class="w-full h-32 object-cover rounded-lg mb-2" style="display:none;">
                         <input type="file" id="cat-office-input" accept="image/*" style="display:none" onchange="previewCategoryImage('office')">
-                        <button onclick="document.getElementById('cat-office-input').click()" class="text-xs bg-brand-gold text-black px-3 py-1.5 rounded w-full">Choose Image</button>
+                        <button onclick="document.getElementById('cat-office-input').click()" class="text-xs bg-brand-gold text-black px-3 py-2 rounded-lg w-full font-medium">Choose</button>
                     </div>
                 </div>
-                
-                <button onclick="uploadCategoryImages()" class="w-full bg-green-500 text-white py-3 rounded hover:bg-green-600 font-medium">
+                <button onclick="uploadCategoryImages()" class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition">
                     <i class="fa-solid fa-save mr-2"></i> Save Category Images
                 </button>
             </div>
             
-            <!-- TAB 3: MANAGE -->
             <div id="tab-manage" style="display:none;">
-                <h4 class="text-white mb-3 font-medium">📋 Manage Uploaded Images</h4>
+                <h4 class="text-white mb-3 font-medium">Manage Uploaded Images</h4>
                 <div class="flex gap-2 mb-4 flex-wrap">
-                    <button onclick="showManageImages('bedroom')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🛏️ Beds</button>
-                    <button onclick="showManageImages('livingroom')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🛋️ Sofas</button>
-                    <button onclick="showManageImages('dining')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">🍽️ Dining</button>
-                    <button onclick="showManageImages('office')" class="text-xs bg-white/10 px-3 py-1.5 rounded hover:bg-white/20">💼 Office</button>
+                    <button onclick="showManageImages('bedroom')" class="text-xs bg-white/5 px-3 py-2 rounded-lg hover:bg-white/10 transition">🛏️ Beds</button>
+                    <button onclick="showManageImages('livingroom')" class="text-xs bg-white/5 px-3 py-2 rounded-lg hover:bg-white/10 transition">🛋️ Sofas</button>
+                    <button onclick="showManageImages('dining')" class="text-xs bg-white/5 px-3 py-2 rounded-lg hover:bg-white/10 transition">🍽️ Dining</button>
+                    <button onclick="showManageImages('office')" class="text-xs bg-white/5 px-3 py-2 rounded-lg hover:bg-white/10 transition">💼 Office</button>
                 </div>
-                <div id="manage-images" class="grid grid-cols-3 gap-2 max-h-60 overflow-y-auto"></div>
+                <div id="manage-images" class="grid grid-cols-3 gap-2 max-h-64 overflow-y-auto"></div>
             </div>
             
-            <button onclick="closeAdminPanel()" class="w-full text-brand-textMuted text-sm mt-4 hover:text-white">Close Panel</button>
+            <button onclick="closeAdminPanel()" class="w-full text-brand-textMuted text-sm mt-5 hover:text-white transition">Close Panel</button>
         </div>
+    </div>
+
+    <!-- FULL SCREEN IMAGE VIEWER -->
+    <div id="image-viewer" class="image-viewer-overlay" onclick="closeImageViewer()">
+        <span class="image-viewer-close" onclick="closeImageViewer()">&times;</span>
+        <span class="image-viewer-nav image-viewer-prev" onclick="event.stopPropagation(); navigateViewer(-1)"><i class="fa-solid fa-chevron-left"></i></span>
+        <span class="image-viewer-nav image-viewer-next" onclick="event.stopPropagation(); navigateViewer(1)"><i class="fa-solid fa-chevron-right"></i></span>
+        <img id="viewer-image" src="" alt="Product Image" onclick="event.stopPropagation()">
     </div>
 
     <!-- HERO SECTION -->
     <section id="home-section" class="relative min-h-[calc(100vh-6rem)] flex items-center hero-bg overflow-hidden">
-        <div class="absolute inset-0 z-0 bg-gradient-to-r from-brand-darkBg via-brand-darkBg/70 to-brand-darkBg/30"></div>
-        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full py-20">
+        <div class="absolute inset-0 z-0 bg-gradient-to-r from-[#080808] via-[#080808]/80 to-[#080808]/20"></div>
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full py-20 animate-slideUp">
             <div class="max-w-xl">
-                <h1 class="font-serif text-5xl md:text-6xl leading-tight mb-4 tracking-wide">
-                    Crafted for Comfort.<br>
-                    <span class="text-brand-gold font-normal italic">Designed for Life.</span>
+                <p class="text-brand-gold text-xs uppercase tracking-[0.3em] mb-4 font-semibold">Premium Furniture</p>
+                <h1 class="font-serif text-5xl md:text-7xl leading-[1.1] mb-6 tracking-tight font-bold">
+                    Crafted for<br><span class="gold-text italic">Comfort.</span>
                 </h1>
-                <p class="text-brand-textMuted text-base md:text-lg mb-8 leading-relaxed max-w-md">
-                    Premium furniture that blends timeless design with unmatched quality.
+                <p class="text-brand-textLight text-base md:text-lg mb-10 leading-relaxed max-w-sm font-light">
+                    Timeless furniture designs that elevate your living space with unmatched elegance.
                 </p>
-                <a href="#" class="inline-flex items-center space-x-3 bg-brand-gold hover:bg-brand-goldHover text-black px-7 py-3.5 text-sm font-medium tracking-wider transition rounded-sm">
-                    <span>Shop Collection</span>
-                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                <a href="#" class="inline-flex items-center space-x-3 btn-gold text-black px-8 py-4 text-sm font-semibold tracking-wider rounded-lg">
+                    <span>Explore Collection</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
                 </a>
             </div>
         </div>
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#080808] to-transparent z-10"></div>
     </section>
 
     <!-- TRUST BADGES -->
-    <section id="home-section2" class="bg-[#0f0f0f] border-y border-white/5 py-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-award text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Premium Quality</h4><p class="text-xs text-brand-textMuted mt-1">Finest materials, built to last.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-compass-drafting text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Custom Made</h4><p class="text-xs text-brand-textMuted mt-1">Furniture tailored to your style.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-truck text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Free Delivery</h4><p class="text-xs text-brand-textMuted mt-1">Fast & reliable delivery.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-shield-halved text-2xl text-brand-gold mt-1"></i><div><h4 class="text-sm font-semibold tracking-wide">Secure Payment</h4><p class="text-xs text-brand-textMuted mt-1">100% secure & trusted.</p></div></div>
+    <section id="home-section2" class="bg-[#0a0a0a] border-y border-white/[0.03] py-12">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="flex items-start space-x-4 group"><div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition"><i class="fa-solid fa-award text-lg text-brand-gold"></i></div><div><h4 class="text-sm font-semibold tracking-wide">Premium Quality</h4><p class="text-xs text-brand-textMuted mt-1">Finest materials</p></div></div>
+            <div class="flex items-start space-x-4 group"><div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition"><i class="fa-solid fa-compass-drafting text-lg text-brand-gold"></i></div><div><h4 class="text-sm font-semibold tracking-wide">Custom Made</h4><p class="text-xs text-brand-textMuted mt-1">Tailored to you</p></div></div>
+            <div class="flex items-start space-x-4 group"><div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition"><i class="fa-solid fa-truck-fast text-lg text-brand-gold"></i></div><div><h4 class="text-sm font-semibold tracking-wide">Free Delivery</h4><p class="text-xs text-brand-textMuted mt-1">Fast & reliable</p></div></div>
+            <div class="flex items-start space-x-4 group"><div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center group-hover:bg-brand-gold/20 transition"><i class="fa-solid fa-shield-check text-lg text-brand-gold"></i></div><div><h4 class="text-sm font-semibold tracking-wide">Secure Payment</h4><p class="text-xs text-brand-textMuted mt-1">100% protected</p></div></div>
         </div>
     </section>
 
     <!-- SHOP BY CATEGORY -->
     <section id="home-section3" class="max-w-7xl mx-auto px-6 py-24">
-        <h2 class="font-serif text-3xl text-center tracking-wide gold-underline mb-16">Shop By Category</h2>
+        <p class="text-brand-gold text-xs uppercase tracking-[0.3em] text-center mb-3 font-semibold">Browse</p>
+        <h2 class="font-serif text-4xl text-center tracking-wide gold-underline mb-16 font-bold">Shop By Category</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Bedroom Card -->
-            <div class="category-card group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img id="cat-img-bedroom" src="" alt="Bedroom" class="category-card-img opacity-80" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-bed text-6xl text-brand-gold opacity-50"></i></div>
+            <div class="category-card group relative bg-brand-cardBg border border-white/[0.04] p-4 rounded-xl flex flex-col items-center text-center">
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-[#0d0d0d] rounded-lg">
+                    <img id="cat-img-bedroom" src="" alt="Bedroom" class="category-card-img opacity-90" style="display:none;">
+                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-bed text-5xl text-brand-gold/30"></i></div>
                 </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-bed text-brand-gold"></i></div>
-                <h3 class="font-serif text-lg tracking-wide mb-1">Bedroom</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('bedroom'); return false;">View Beds <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                <div class="w-12 h-12 rounded-full bg-[#0a0a0a] border border-white/[0.06] flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl group-hover:border-brand-gold/30 transition"><i class="fa-solid fa-bed text-brand-gold"></i></div>
+                <h3 class="font-serif text-lg font-semibold tracking-wide mb-1">Bedroom</h3>
+                <p class="text-brand-textMuted text-xs mb-3">Luxury Beds</p>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:text-brand-goldLight transition font-medium" onclick="showCollection('bedroom'); return false;">View Collection <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></a>
             </div>
             
-            <!-- Living Room Card -->
-            <div class="category-card group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img id="cat-img-livingroom" src="" alt="Living Room" class="category-card-img opacity-80" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-couch text-6xl text-brand-gold opacity-50"></i></div>
+            <div class="category-card group relative bg-brand-cardBg border border-white/[0.04] p-4 rounded-xl flex flex-col items-center text-center">
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-[#0d0d0d] rounded-lg">
+                    <img id="cat-img-livingroom" src="" alt="Living Room" class="category-card-img opacity-90" style="display:none;">
+                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-couch text-5xl text-brand-gold/30"></i></div>
                 </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-couch text-brand-gold"></i></div>
-                <h3 class="font-serif text-lg tracking-wide mb-1">Living Room</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('livingroom'); return false;">View Sofas <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                <div class="w-12 h-12 rounded-full bg-[#0a0a0a] border border-white/[0.06] flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl group-hover:border-brand-gold/30 transition"><i class="fa-solid fa-couch text-brand-gold"></i></div>
+                <h3 class="font-serif text-lg font-semibold tracking-wide mb-1">Living Room</h3>
+                <p class="text-brand-textMuted text-xs mb-3">Premium Sofas</p>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:text-brand-goldLight transition font-medium" onclick="showCollection('livingroom'); return false;">View Collection <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></a>
             </div>
             
-            <!-- Dining Card -->
-            <div class="category-card group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img id="cat-img-dining" src="" alt="Dining" class="category-card-img opacity-80" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-chair text-6xl text-brand-gold opacity-50"></i></div>
+            <div class="category-card group relative bg-brand-cardBg border border-white/[0.04] p-4 rounded-xl flex flex-col items-center text-center">
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-[#0d0d0d] rounded-lg">
+                    <img id="cat-img-dining" src="" alt="Dining" class="category-card-img opacity-90" style="display:none;">
+                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-chair text-5xl text-brand-gold/30"></i></div>
                 </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-chair text-brand-gold"></i></div>
-                <h3 class="font-serif text-lg tracking-wide mb-1">Dining Room</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('dining'); return false;">View Dining <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                <div class="w-12 h-12 rounded-full bg-[#0a0a0a] border border-white/[0.06] flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl group-hover:border-brand-gold/30 transition"><i class="fa-solid fa-chair text-brand-gold"></i></div>
+                <h3 class="font-serif text-lg font-semibold tracking-wide mb-1">Dining Room</h3>
+                <p class="text-brand-textMuted text-xs mb-3">Tables & Chairs</p>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:text-brand-goldLight transition font-medium" onclick="showCollection('dining'); return false;">View Collection <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></a>
             </div>
             
-            <!-- Office Card -->
-            <div class="category-card group relative bg-brand-cardBg border border-white/5 p-4 rounded-sm transition flex flex-col items-center text-center">
-                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-neutral-900">
-                    <img id="cat-img-office" src="" alt="Office" class="category-card-img opacity-80" style="display:none;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-briefcase text-6xl text-brand-gold opacity-50"></i></div>
+            <div class="category-card group relative bg-brand-cardBg border border-white/[0.04] p-4 rounded-xl flex flex-col items-center text-center">
+                <div class="w-full aspect-[4/5] overflow-hidden mb-6 bg-[#0d0d0d] rounded-lg">
+                    <img id="cat-img-office" src="" alt="Office" class="category-card-img opacity-90" style="display:none;">
+                    <div class="cat-icon-fallback w-full h-full flex items-center justify-center"><i class="fa-solid fa-briefcase text-5xl text-brand-gold/30"></i></div>
                 </div>
-                <div class="w-12 h-12 rounded-full bg-brand-darkBg border border-white/10 flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl"><i class="fa-solid fa-briefcase text-brand-gold"></i></div>
-                <h3 class="font-serif text-lg tracking-wide mb-1">Office</h3>
-                <a href="#" class="text-xs tracking-wider text-brand-gold hover:underline" onclick="showCollection('office'); return false;">View Office <i class="fa-solid fa-chevron-right text-[9px]"></i></a>
+                <div class="w-12 h-12 rounded-full bg-[#0a0a0a] border border-white/[0.06] flex items-center justify-center -mt-12 relative z-10 mb-4 shadow-xl group-hover:border-brand-gold/30 transition"><i class="fa-solid fa-briefcase text-brand-gold"></i></div>
+                <h3 class="font-serif text-lg font-semibold tracking-wide mb-1">Office</h3>
+                <p class="text-brand-textMuted text-xs mb-3">Desks & Chairs</p>
+                <a href="#" class="text-xs tracking-wider text-brand-gold hover:text-brand-goldLight transition font-medium" onclick="showCollection('office'); return false;">View Collection <i class="fa-solid fa-chevron-right text-[9px] ml-1"></i></a>
             </div>
         </div>
     </section>
@@ -360,118 +659,141 @@
     <!-- COLLECTION SECTIONS -->
     <div id="bedroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">🛏️ Bedroom Collection - Beds Only</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+            <div>
+                <p class="text-brand-gold text-xs uppercase tracking-[0.3em] mb-2 font-semibold">Collection</p>
+                <h2 class="font-serif text-3xl font-bold tracking-wide">🛏️ Bedroom · Beds Only</h2>
+            </div>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldLight text-sm font-medium transition flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Home</button>
         </div>
         <div class="product-grid" id="bedroom-products"></div>
     </div>
 
     <div id="livingroom-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">🛋️ Living Room - Sofas & Couches Only</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+            <div>
+                <p class="text-brand-gold text-xs uppercase tracking-[0.3em] mb-2 font-semibold">Collection</p>
+                <h2 class="font-serif text-3xl font-bold tracking-wide">🛋️ Living Room · Sofas Only</h2>
+            </div>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldLight text-sm font-medium transition flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Home</button>
         </div>
         <div class="product-grid" id="livingroom-products"></div>
     </div>
 
     <div id="dining-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">🍽️ Dining Room - Tables & Chairs Only</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+            <div>
+                <p class="text-brand-gold text-xs uppercase tracking-[0.3em] mb-2 font-semibold">Collection</p>
+                <h2 class="font-serif text-3xl font-bold tracking-wide">🍽️ Dining · Tables & Chairs</h2>
+            </div>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldLight text-sm font-medium transition flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Home</button>
         </div>
         <div class="product-grid" id="dining-products"></div>
     </div>
 
     <div id="office-collection" class="collection-section max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center justify-between mb-12">
-            <h2 class="font-serif text-3xl tracking-wide gold-underline">💼 Office - Desks & Chairs Only</h2>
-            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldHover text-sm"><i class="fa-solid fa-arrow-left"></i> Back to Home</button>
+            <div>
+                <p class="text-brand-gold text-xs uppercase tracking-[0.3em] mb-2 font-semibold">Collection</p>
+                <h2 class="font-serif text-3xl font-bold tracking-wide">💼 Office · Desks & Chairs</h2>
+            </div>
+            <button onclick="showHome()" class="text-brand-gold hover:text-brand-goldLight text-sm font-medium transition flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Home</button>
         </div>
         <div class="product-grid" id="office-products"></div>
     </div>
 
-    <!-- CEO WHATSAPP CONTACT -->
-    <section id="ceo-contact" class="max-w-7xl mx-auto px-6 py-8 border-t border-white/5">
-        <div class="bg-brand-cardBg border border-white/5 rounded-sm p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <!-- CEO CONTACT -->
+    <section id="ceo-contact" class="max-w-7xl mx-auto px-6 py-10 border-t border-white/[0.03]">
+        <div class="bg-brand-cardBg border border-white/[0.04] rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-5">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+                <div class="w-14 h-14 rounded-full bg-green-500/10 flex items-center justify-center border border-green-500/20">
                     <i class="fa-brands fa-whatsapp text-2xl text-green-400"></i>
                 </div>
                 <div>
-                    <p class="text-xs text-brand-textMuted">Contact CEO - Tochukwu</p>
-                    <p class="text-lg font-semibold text-brand-gold">09135357118</p>
+                    <p class="text-xs text-brand-textMuted uppercase tracking-wide">Contact CEO</p>
+                    <p class="text-xl font-bold text-white">Tochukwu</p>
+                    <p class="text-sm text-brand-gold">09135357118</p>
                 </div>
             </div>
-            <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 text-sm font-medium tracking-wider transition rounded-sm">
+            <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-7 py-3.5 text-sm font-semibold tracking-wider rounded-lg transition shadow-lg shadow-green-500/20">
                 <i class="fa-brands fa-whatsapp text-lg"></i> Chat on WhatsApp
             </a>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#0b0b0b] border-t border-white/5 py-12 mt-8">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mb-8">
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-couch text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Timeless Design</h4><p class="text-[11px] text-brand-textMuted mt-1">Elegant pieces for every space.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-hammer text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Expert Craftsmanship</h4><p class="text-[11px] text-brand-textMuted mt-1">Built with precision and care.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-face-smile text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Customer Satisfaction</h4><p class="text-[11px] text-brand-textMuted mt-1">We put our customers first.</p></div></div>
-            <div class="flex items-start space-x-4"><i class="fa-solid fa-leaf text-xl text-brand-gold mt-1"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold">Sustainable Materials</h4><p class="text-[11px] text-brand-textMuted mt-1">Good for you and the planet.</p></div></div>
+    <footer class="bg-[#060606] border-t border-white/[0.03] py-14 mt-8">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div class="flex items-start space-x-3"><i class="fa-solid fa-crown text-xl text-brand-gold mt-0.5"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold uppercase">Timeless Design</h4><p class="text-[11px] text-brand-textMuted mt-1">Elegant pieces</p></div></div>
+            <div class="flex items-start space-x-3"><i class="fa-solid fa-hammer text-xl text-brand-gold mt-0.5"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold uppercase">Craftsmanship</h4><p class="text-[11px] text-brand-textMuted mt-1">Precision & care</p></div></div>
+            <div class="flex items-start space-x-3"><i class="fa-solid fa-heart text-xl text-brand-gold mt-0.5"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold uppercase">Satisfaction</h4><p class="text-[11px] text-brand-textMuted mt-1">Customers first</p></div></div>
+            <div class="flex items-start space-x-3"><i class="fa-solid fa-leaf text-xl text-brand-gold mt-0.5"></i><div><h4 class="text-xs font-semibold tracking-wide text-brand-gold uppercase">Sustainable</h4><p class="text-[11px] text-brand-textMuted mt-1">Eco-friendly</p></div></div>
         </div>
-        
-        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-center">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-4">
-                <a href="https://wa.me/2349135357118" target="_blank" class="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition">
-                    <i class="fa-brands fa-whatsapp text-xl"></i>
-                    <span class="text-sm">Chat with CEO on WhatsApp</span>
-                </a>
-                <span class="text-brand-textMuted hidden md:block">|</span>
-                <a href="tel:09135357118" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-goldHover transition">
-                    <i class="fa-solid fa-phone"></i>
-                    <span class="text-sm">09135357118</span>
-                </a>
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-white/[0.03] text-center">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-5">
+                <a href="https://wa.me/2349135357118" target="_blank" class="text-green-400 hover:text-green-300 transition text-sm"><i class="fa-brands fa-whatsapp mr-1.5"></i> WhatsApp</a>
+                <span class="text-white/20 hidden md:block">|</span>
+                <a href="tel:09135357118" class="text-brand-gold hover:text-brand-goldLight transition text-sm"><i class="fa-solid fa-phone mr-1.5"></i> 09135357118</a>
             </div>
-            <p class="text-xs text-brand-textMuted">© 2026 TCWF - Classic World Furniture. All rights reserved.</p>
-            <p class="text-xs text-brand-textMuted mt-1">CEO: Tochukwu | <span class="text-brand-gold">09135357118</span></p>
+            <p class="text-[11px] text-white/30">© 2026 TCWF · Classic World Furniture</p>
+            <p class="text-[11px] text-white/20 mt-1">CEO: Tochukwu</p>
         </div>
     </footer>
 
-    <!-- FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/2349135357118" target="_blank" class="whatsapp-float" title="Chat with CEO on WhatsApp">
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/2349135357118" target="_blank" class="whatsapp-float" title="Chat with CEO">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
     <script>
         // ============================================
-        // MAIN SCRIPT
+        // FULL APPLICATION SCRIPT
         // ============================================
         
         let isAdmin = false;
         let selectedFiles = [];
         let categoryImageFiles = {};
+        let currentViewerImages = [];
+        let currentViewerIndex = 0;
         
-        // Initialize storage
-        if (!localStorage.getItem('tcwf_bedroom')) localStorage.setItem('tcwf_bedroom', JSON.stringify([]));
-        if (!localStorage.getItem('tcwf_livingroom')) localStorage.setItem('tcwf_livingroom', JSON.stringify([]));
-        if (!localStorage.getItem('tcwf_dining')) localStorage.setItem('tcwf_dining', JSON.stringify([]));
-        if (!localStorage.getItem('tcwf_office')) localStorage.setItem('tcwf_office', JSON.stringify([]));
+        // Storage initialization
+        ['bedroom', 'livingroom', 'dining', 'office'].forEach(cat => {
+            if (!localStorage.getItem('tcwf_' + cat)) localStorage.setItem('tcwf_' + cat, JSON.stringify([]));
+        });
         if (!localStorage.getItem('tcwf_category_images')) localStorage.setItem('tcwf_category_images', JSON.stringify({}));
         
-        function getImages(category) {
-            return JSON.parse(localStorage.getItem('tcwf_' + category) || '[]');
+        function getImages(cat) { return JSON.parse(localStorage.getItem('tcwf_' + cat) || '[]'); }
+        function saveImages(cat, imgs) { localStorage.setItem('tcwf_' + cat, JSON.stringify(imgs)); }
+        function getCategoryImages() { return JSON.parse(localStorage.getItem('tcwf_category_images') || '{}'); }
+        function saveCategoryImages(imgs) { localStorage.setItem('tcwf_category_images', JSON.stringify(imgs)); }
+        
+        // Full Screen Image Viewer
+        function openImageViewer(images, index) {
+            currentViewerImages = images;
+            currentViewerIndex = index;
+            document.getElementById('viewer-image').src = images[index].url;
+            document.getElementById('image-viewer').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
         
-        function saveImages(category, images) {
-            localStorage.setItem('tcwf_' + category, JSON.stringify(images));
+        function closeImageViewer() {
+            document.getElementById('image-viewer').classList.remove('active');
+            document.body.style.overflow = '';
         }
         
-        function getCategoryImages() {
-            return JSON.parse(localStorage.getItem('tcwf_category_images') || '{}');
+        function navigateViewer(dir) {
+            currentViewerIndex = (currentViewerIndex + dir + currentViewerImages.length) % currentViewerImages.length;
+            document.getElementById('viewer-image').src = currentViewerImages[currentViewerIndex].url;
         }
         
-        function saveCategoryImages(images) {
-            localStorage.setItem('tcwf_category_images', JSON.stringify(images));
-        }
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('image-viewer').classList.contains('active')) return;
+            if (e.key === 'Escape') closeImageViewer();
+            if (e.key === 'ArrowLeft') navigateViewer(-1);
+            if (e.key === 'ArrowRight') navigateViewer(1);
+        });
         
-        // Load category images on homepage
+        // Load category images
         function loadCategoryImages() {
             const catImages = getCategoryImages();
             ['bedroom', 'livingroom', 'dining', 'office'].forEach(cat => {
@@ -488,86 +810,61 @@
             });
         }
         
-        // Preview category image
-        function previewCategoryImage(category) {
-            const input = document.getElementById('cat-' + category + '-input');
-            const preview = document.getElementById('preview-' + category + '-cat');
-            
+        function previewCategoryImage(cat) {
+            const input = document.getElementById('cat-' + cat + '-input');
+            const preview = document.getElementById('preview-' + cat + '-cat');
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     preview.src = e.target.result;
                     preview.style.display = 'block';
-                    categoryImageFiles[category] = input.files[0];
+                    categoryImageFiles[cat] = input.files[0];
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         }
         
-        // Upload category images
         async function uploadCategoryImages() {
-            const categories = ['bedroom', 'livingroom', 'dining', 'office'];
             let uploaded = 0;
-            
-            for (const cat of categories) {
+            for (const cat of ['bedroom', 'livingroom', 'dining', 'office']) {
                 const file = categoryImageFiles[cat];
                 if (!file) continue;
-                
                 const formData = new FormData();
                 formData.append('image', file);
-                
                 try {
-                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const data = await response.json();
-                    
+                    const resp = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, { method: 'POST', body: formData });
+                    const data = await resp.json();
                     if (data.success) {
                         const catImages = getCategoryImages();
                         catImages[cat] = data.data.url;
                         saveCategoryImages(catImages);
                         uploaded++;
                     }
-                } catch (error) {
-                    console.error('Upload error:', error);
-                }
+                } catch (e) { console.error(e); }
             }
-            
             categoryImageFiles = {};
             loadCategoryImages();
-            
-            if (uploaded > 0) {
-                alert(`✅ ${uploaded} category image(s) updated!`);
-            } else {
-                alert('⚠️ No images selected. Please choose images first.');
-            }
+            alert(uploaded > 0 ? `✅ ${uploaded} category image(s) updated!` : '⚠️ No images selected.');
         }
         
-        // Admin tabs
         function showAdminTab(tab) {
-            document.getElementById('tab-upload').style.display = tab === 'upload' ? 'block' : 'none';
-            document.getElementById('tab-category').style.display = tab === 'category' ? 'block' : 'none';
-            document.getElementById('tab-manage').style.display = tab === 'manage' ? 'block' : 'none';
-            
-            document.getElementById('tab-upload-btn').className = tab === 'upload' ? 'px-4 py-2 bg-brand-gold text-black rounded text-sm font-medium' : 'px-4 py-2 bg-white/10 text-white rounded text-sm hover:bg-white/20';
-            document.getElementById('tab-category-btn').className = tab === 'category' ? 'px-4 py-2 bg-brand-gold text-black rounded text-sm font-medium' : 'px-4 py-2 bg-white/10 text-white rounded text-sm hover:bg-white/20';
-            document.getElementById('tab-manage-btn').className = tab === 'manage' ? 'px-4 py-2 bg-brand-gold text-black rounded text-sm font-medium' : 'px-4 py-2 bg-white/10 text-white rounded text-sm hover:bg-white/20';
+            ['upload', 'category', 'manage'].forEach(t => {
+                document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+                const btn = document.getElementById('tab-' + t + '-btn');
+                if (t === tab) {
+                    btn.className = 'px-5 py-2.5 bg-brand-gold text-black rounded-lg text-sm font-semibold';
+                } else {
+                    btn.className = 'px-5 py-2.5 bg-white/5 text-white rounded-lg text-sm hover:bg-white/10 transition';
+                }
+            });
         }
         
-        // Upload to ImgBB
         async function uploadToImgBB() {
-            if (selectedFiles.length === 0) {
-                alert('⚠️ Please select images first!');
-                return;
-            }
-            
+            if (selectedFiles.length === 0) { alert('⚠️ Please select images first!'); return; }
             const category = document.getElementById('upload-category').value;
             const progressBar = document.getElementById('progress-fill');
             const progressText = document.getElementById('progress-text');
             const uploadProgress = document.getElementById('upload-progress');
-            
             uploadProgress.classList.remove('hidden');
             
             let uploadedCount = 0;
@@ -577,15 +874,9 @@
                 const file = selectedFiles[i];
                 const formData = new FormData();
                 formData.append('image', file);
-                
                 try {
-                    const response = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const data = await response.json();
-                    
+                    const resp = await fetch(`https://api.imgbb.com/1/upload?key=${CONFIG.IMGBB_API_KEY}`, { method: 'POST', body: formData });
+                    const data = await resp.json();
                     if (data.success) {
                         existingImages.push({
                             id: Date.now() + Math.random(),
@@ -596,14 +887,9 @@
                         });
                         uploadedCount++;
                     }
-                    
-                    const progress = ((i + 1) / selectedFiles.length) * 100;
-                    progressBar.style.width = progress + '%';
-                    progressText.textContent = `✅ Uploaded ${i + 1} of ${selectedFiles.length}: ${file.name}`;
-                    
-                } catch (error) {
-                    progressText.textContent = `❌ Failed: ${file.name}`;
-                }
+                    progressBar.style.width = ((i + 1) / selectedFiles.length * 100) + '%';
+                    progressText.textContent = `✅ ${i + 1}/${selectedFiles.length}: ${file.name}`;
+                } catch (e) { progressText.textContent = `❌ Failed: ${file.name}`; }
             }
             
             saveImages(category, existingImages);
@@ -612,44 +898,42 @@
             selectedFiles = [];
             document.getElementById('upload-preview').innerHTML = '';
             document.getElementById('file-input').value = '';
-            
-            alert(`✅ Successfully uploaded ${uploadedCount} images!`);
+            alert(`✅ ${uploadedCount} images uploaded!`);
             showCollection(category);
         }
         
         function handleFileSelect(event) {
             selectedFiles = Array.from(event.target.files);
             const preview = document.getElementById('upload-preview');
-            preview.innerHTML = selectedFiles.map((file, index) => {
-                const url = URL.createObjectURL(file);
-                return `<div class="relative"><img src="${url}" class="w-full h-20 object-cover rounded"><span class="absolute bottom-1 left-1 bg-black/70 text-white text-[10px] px-1 rounded">${index + 1}</span></div>`;
+            preview.innerHTML = selectedFiles.map((f, i) => {
+                const url = URL.createObjectURL(f);
+                return `<div class="relative"><img src="${url}" class="w-full h-20 object-cover rounded-lg"><span class="absolute bottom-1 left-1 bg-black/70 text-white text-[10px] px-1.5 rounded">${i+1}</span></div>`;
             }).join('');
         }
         
-        function showManageImages(category) {
+        function showManageImages(cat) {
             const container = document.getElementById('manage-images');
-            const images = getImages(category);
+            const images = getImages(cat);
             if (images.length === 0) {
-                container.innerHTML = '<p class="text-brand-textMuted text-sm col-span-full text-center py-4">No images yet</p>';
+                container.innerHTML = '<p class="text-brand-textMuted text-sm col-span-full text-center py-6">No images yet</p>';
                 return;
             }
             container.innerHTML = images.map(img => `
                 <div class="relative">
-                    <img src="${img.thumb || img.url}" class="w-full h-20 object-cover rounded" loading="lazy">
-                    <button class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center" onclick="deleteImage('${category}', ${img.id})">×</button>
-                    <p class="text-[10px] text-brand-textMuted truncate mt-1">${img.name}</p>
+                    <img src="${img.thumb || img.url}" class="w-full h-20 object-cover rounded-lg" loading="lazy">
+                    <button class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center hover:bg-red-600" onclick="deleteImage('${cat}', ${img.id})">×</button>
                 </div>
             `).join('');
         }
         
-        function deleteImage(category, id) {
-            if (confirm('🗑️ Delete this image?')) {
-                let images = getImages(category);
+        function deleteImage(cat, id) {
+            if (confirm('Delete this image?')) {
+                let images = getImages(cat);
                 images = images.filter(img => img.id !== id);
-                saveImages(category, images);
-                showManageImages(category);
+                saveImages(cat, images);
+                showManageImages(cat);
                 const map = { bedroom: 'bedroom-products', livingroom: 'livingroom-products', dining: 'dining-products', office: 'office-products' };
-                if (map[category]) renderCollection(map[category], category);
+                if (map[cat]) renderCollection(map[cat], cat);
             }
         }
         
@@ -659,6 +943,7 @@
                 document.getElementById('login-modal').classList.remove('active');
                 document.getElementById('admin-panel').classList.add('active');
                 document.getElementById('admin-password').value = '';
+                document.getElementById('login-error').classList.add('hidden');
                 showAdminTab('upload');
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
@@ -678,25 +963,26 @@
             }
         }
         
-        function renderCollection(containerId, category) {
+        function renderCollection(containerId, cat) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            const images = getImages(category);
+            const images = getImages(cat);
             if (images.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-16"><i class="fa-solid fa-image text-5xl text-brand-gold opacity-50 mb-4 block"></i><p class="text-brand-textMuted text-lg">No images uploaded yet</p></div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-20"><i class="fa-solid fa-image text-5xl text-brand-gold/20 mb-5 block"></i><p class="text-brand-textMuted text-lg">No images yet</p><p class="text-brand-textMuted text-sm mt-1">Upload via Admin Panel</p></div>`;
                 return;
             }
-            container.innerHTML = images.map(img => `
-                <div class="image-card group bg-brand-cardBg border border-white/5 p-3 rounded-sm flex flex-col">
-                    <div class="w-full aspect-[4/3] overflow-hidden bg-neutral-900 mb-4">
-                        <img src="${img.url}" alt="${img.name}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-300" loading="lazy">
+            container.innerHTML = images.map((img, i) => `
+                <div class="product-card group bg-brand-cardBg border border-white/[0.04] p-3 rounded-xl flex flex-col" onclick="openImageViewer(getImages('${cat}'), ${i})">
+                    <div class="w-full aspect-[4/3] overflow-hidden bg-[#0d0d0d] mb-4 rounded-lg">
+                        <img src="${img.url}" alt="${img.name}" class="w-full h-full object-cover opacity-90" loading="lazy">
                     </div>
-                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/90 line-clamp-2">${img.name.replace(/[-_]/g, ' ')}</h3>
+                    <h3 class="text-xs font-medium tracking-wide px-1 text-white/85 line-clamp-2">${img.name.replace(/[-_]/g, ' ')}</h3>
+                    <p class="text-[10px] text-brand-textMuted px-1 mt-1">Click to view</p>
                 </div>
             `).join('');
         }
         
-        function showCollection(category) {
+        function showCollection(cat) {
             document.querySelectorAll('.collection-section').forEach(el => el.classList.remove('active'));
             ['home-section', 'home-section2', 'home-section3', 'ceo-contact'].forEach(id => {
                 const el = document.getElementById(id);
@@ -708,10 +994,10 @@
                 dining: { sectionId: 'dining-collection', containerId: 'dining-products' },
                 office: { sectionId: 'office-collection', containerId: 'office-products' }
             };
-            const cfg = config[category];
+            const cfg = config[cat];
             if (cfg) {
                 document.getElementById(cfg.sectionId).classList.add('active');
-                renderCollection(cfg.containerId, category);
+                renderCollection(cfg.containerId, cat);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -735,6 +1021,7 @@
             showHome();
         });
         
+        // Global exports
         window.showCollection = showCollection;
         window.showHome = showHome;
         window.adminLogin = adminLogin;
@@ -747,6 +1034,9 @@
         window.showAdminTab = showAdminTab;
         window.previewCategoryImage = previewCategoryImage;
         window.uploadCategoryImages = uploadCategoryImages;
+        window.openImageViewer = openImageViewer;
+        window.closeImageViewer = closeImageViewer;
+        window.navigateViewer = navigateViewer;
     </script>
 </body>
 </html>
