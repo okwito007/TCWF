@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TCWF | Classic World Furniture</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -35,17 +35,16 @@
         .logo-border { border: 2px solid #c9a84c; box-shadow: 0 0 15px rgba(201,168,76,0.3); padding: 0.3rem 1.2rem; border-radius: 4px; }
         .logo-subtitle { font-size: 0.55rem; letter-spacing: 0.35em; color: #c9a84c; margin-top: 0.4rem; font-weight: 700; }
         
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.8rem; }
         .product-card { cursor: pointer; transition: transform 0.2s; background: #111; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; }
-        .product-card:hover { transform: translateY(-3px); }
-        .product-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; transition: transform 0.3s; }
-        .product-card:hover img { transform: scale(1.04); }
+        .product-card:active { transform: scale(0.97); }
+        .product-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
         
         .category-card { cursor: pointer; transition: transform 0.2s; background: #111; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; position: relative; }
-        .category-card:hover { transform: translateY(-4px); }
+        .category-card:active { transform: scale(0.97); }
         .category-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
         
-        .blink-text { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(0,0,0,0.85); color: #fff; padding: 8px 20px; border-radius: 25px; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.1em; border: 2px solid #c9a84c; animation: blink 1s infinite; white-space: nowrap; pointer-events: none; }
+        .blink-text { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(0,0,0,0.85); color: #fff; padding: 6px 16px; border-radius: 25px; font-weight: 800; font-size: 0.7rem; letter-spacing: 0.1em; border: 2px solid #c9a84c; animation: blink 1s infinite; white-space: nowrap; pointer-events: none; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
         
         .collection-section { display: none; }
@@ -53,118 +52,149 @@
         
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-content { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; }
+        .modal-content { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 20px; max-width: 90%; width: 400px; }
         
-        /* SIMPLE FULL SCREEN VIEWER */
+        /* FULL SCREEN VIEWER - ANDROID FRIENDLY */
         #img-viewer {
             display: none;
             position: fixed;
             top: 0; left: 0;
-            width: 100%; height: 100%;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             background: #000;
             z-index: 99999;
-            text-align: center;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        #img-viewer .viewer-image-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         #img-viewer img {
             max-width: 100%;
-            max-height: 85vh;
+            max-height: 100%;
             object-fit: contain;
-            margin-top: 10px;
+            display: block;
         }
         #img-viewer .close-btn {
-            position: absolute;
-            top: 15px; right: 25px;
+            position: fixed;
+            top: 10px; right: 10px;
             color: #fff;
-            font-size: 40px;
+            font-size: 28px;
             cursor: pointer;
             z-index: 100000;
-            background: rgba(255,0,0,0.5);
-            width: 50px; height: 50px;
+            background: rgba(255,0,0,0.7);
+            width: 40px; height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
+            border: 2px solid #fff;
         }
         #img-viewer .nav-left {
-            position: absolute;
-            top: 50%; left: 15px;
+            position: fixed;
+            top: 50%; left: 10px;
             transform: translateY(-50%);
             color: #fff;
-            font-size: 40px;
+            font-size: 30px;
             cursor: pointer;
             z-index: 100000;
             background: rgba(0,0,0,0.6);
-            width: 55px; height: 55px;
+            width: 44px; height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.5);
         }
         #img-viewer .nav-right {
-            position: absolute;
-            top: 50%; right: 15px;
+            position: fixed;
+            top: 50%; right: 10px;
             transform: translateY(-50%);
             color: #fff;
-            font-size: 40px;
+            font-size: 30px;
             cursor: pointer;
             z-index: 100000;
             background: rgba(0,0,0,0.6);
-            width: 55px; height: 55px;
+            width: 44px; height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
+            border: 2px solid rgba(255,255,255,0.5);
         }
         #img-viewer .bottom-btns {
-            position: absolute;
-            bottom: 20px;
+            position: fixed;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             z-index: 100000;
-            flex-wrap: wrap;
-            justify-content: center;
         }
         #img-viewer .bottom-btns button,
         #img-viewer .bottom-btns a {
-            padding: 12px 22px;
-            border-radius: 30px;
+            padding: 10px 18px;
+            border-radius: 25px;
             font-weight: 700;
             cursor: pointer;
             border: none;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            white-space: nowrap;
         }
         #img-viewer .save-btn { background: #c9a84c; color: #000; }
         #img-viewer .wa-btn { background: #25D366; color: #fff; }
-        #img-viewer .counter { color: #fff; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-weight: 700; font-size: 1rem; z-index: 100000; }
+        #img-viewer .counter { 
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            z-index: 100000;
+            background: rgba(0,0,0,0.6);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
         
-        .search-box { display: flex; max-width: 500px; margin: 0 auto; }
-        .search-box input { flex: 1; padding: 14px 20px; background: #111; border: 2px solid #333; color: #fff; border-radius: 30px 0 0 30px; font-size: 0.95rem; }
+        .search-box { display: flex; max-width: 100%; margin: 0 auto; }
+        .search-box input { flex: 1; padding: 12px 16px; background: #111; border: 2px solid #333; color: #fff; border-radius: 25px 0 0 25px; font-size: 0.9rem; min-width: 0; }
         .search-box input:focus { border-color: #c9a84c; outline: none; }
-        .search-box button { padding: 14px 24px; background: #c9a84c; color: #000; border: none; border-radius: 0 30px 30px 0; font-weight: 700; cursor: pointer; }
+        .search-box button { padding: 12px 20px; background: #c9a84c; color: #000; border: none; border-radius: 0 25px 25px 0; font-weight: 700; cursor: pointer; white-space: nowrap; }
         
-        .btn-gold { background: #c9a84c; color: #000; font-weight: 600; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; }
-        .btn-green { background: #27ae60; color: #fff; font-weight: 600; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; }
+        .btn-gold { background: #c9a84c; color: #000; font-weight: 600; padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; width: 100%; }
+        .btn-green { background: #27ae60; color: #fff; font-weight: 600; padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; width: 100%; }
         .hero-bg { background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920'); background-size: cover; background-position: center; }
-        .load-more-btn { display: block; margin: 25px auto; padding: 14px 40px; background: #c9a84c; color: #000; border: none; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
+        .load-more-btn { display: block; margin: 20px auto; padding: 12px 30px; background: #c9a84c; color: #000; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
         
-        @media (max-width: 640px) { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; } }
+        /* Swipe hint */
+        .swipe-hint {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            z-index: 100000;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-    <header style="background:#080808;border-bottom:1px solid #1a1a1a;position:sticky;top:0;z-index:50;padding:0 16px;">
-        <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:80px;flex-wrap:wrap;gap:10px;">
+    <header style="background:#080808;border-bottom:1px solid #1a1a1a;position:sticky;top:0;z-index:50;padding:0 12px;">
+        <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:65px;flex-wrap:wrap;gap:8px;">
             <a href="#" onclick="showHome();return false;" style="text-decoration:none;text-align:center;">
-                <div class="logo-border"><span class="logo-main">TCWF</span></div>
-                <div class="logo-subtitle">CLASSIC WORLD FURNITURE</div>
+                <div class="logo-border"><span class="logo-main" style="font-size:1.5rem;">TCWF</span></div>
+                <div class="logo-subtitle" style="font-size:0.45rem;">CLASSIC WORLD FURNITURE</div>
             </a>
-            <nav style="display:flex;gap:12px;font-size:0.8rem;font-weight:500;flex-wrap:wrap;">
+            <nav style="display:flex;gap:8px;font-size:0.7rem;font-weight:500;flex-wrap:wrap;">
                 <a href="#" onclick="showHome();return false;" style="color:#c9a84c;">Home</a>
                 <a href="#" onclick="showCollection('bedroom');return false;" style="color:#aaa;">Beds</a>
                 <a href="#" onclick="showCollection('livingroom');return false;" style="color:#aaa;">Sofas</a>
@@ -172,60 +202,67 @@
                 <a href="#" onclick="showCollection('tables');return false;" style="color:#aaa;">Tables</a>
                 <a href="#" onclick="showCollection('tvstands');return false;" style="color:#aaa;">TV Stands</a>
             </nav>
-            <button onclick="openLogin()" style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;padding:6px 14px;border-radius:6px;font-size:0.75rem;cursor:pointer;">🔐 Admin</button>
+            <button onclick="openLogin()" style="background:transparent;border:1px solid #c9a84c;color:#c9a84c;padding:5px 10px;border-radius:6px;font-size:0.7rem;cursor:pointer;">🔐</button>
         </div>
     </header>
 
-    <div id="login-modal" class="modal"><div class="modal-content"><h3 style="color:#c9a84c;font-size:1.3rem;margin-bottom:12px;">Admin Login</h3><input type="password" id="admin-pass" placeholder="Password" style="width:100%;padding:12px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-bottom:10px;"><button onclick="adminLogin()" class="btn-gold" style="width:100%;">Login</button><p id="login-err" style="color:red;font-size:0.8rem;margin-top:8px;display:none;">Wrong!</p></div></div>
+    <!-- LOGIN -->
+    <div id="login-modal" class="modal"><div class="modal-content"><h3 style="color:#c9a84c;font-size:1.2rem;margin-bottom:10px;">Admin Login</h3><input type="password" id="admin-pass" placeholder="Password" style="width:100%;padding:12px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-bottom:10px;"><button onclick="adminLogin()" class="btn-gold">Login</button><p id="login-err" style="color:red;font-size:0.8rem;margin-top:8px;display:none;">Wrong!</p><button onclick="document.getElementById('login-modal').classList.remove('active')" style="width:100%;color:#aaa;background:none;border:none;margin-top:8px;">Cancel</button></div></div>
     
-    <div id="admin-panel" class="modal"><div class="modal-content"><div style="display:flex;justify-content:space-between;margin-bottom:16px;"><h3 style="color:#c9a84c;">Admin Panel</h3><button onclick="document.getElementById('admin-panel').classList.remove('active')" style="color:#fff;font-size:1.5rem;background:none;border:none;">&times;</button></div>
-    <button onclick="fixCategories()" class="btn-green" style="width:100%;margin-bottom:12px;">🔧 Move Beds → Sofas</button>
-    <select id="upload-cat" style="width:100%;padding:12px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-bottom:12px;"><option value="bedroom">🛏️ Bedroom</option><option value="livingroom">🛋️ Living Room</option><option value="dining">🍽️ Dining</option><option value="tables">📐 Tables</option><option value="tvstands">📺 TV Stands</option></select><div onclick="document.getElementById('file-input').click()" style="border:2px dashed #c9a84c;padding:28px;text-align:center;border-radius:10px;cursor:pointer;margin-bottom:12px;"><p style="color:#fff;">📁 Click to upload</p><input type="file" id="file-input" multiple accept="image/*" style="display:none;" onchange="previewFiles()"></div><div id="preview-box" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;"></div><button onclick="uploadAll()" class="btn-gold" style="width:100%;">📤 Upload</button></div></div>
+    <!-- ADMIN -->
+    <div id="admin-panel" class="modal"><div class="modal-content"><div style="display:flex;justify-content:space-between;margin-bottom:12px;"><h3 style="color:#c9a84c;">Admin</h3><button onclick="document.getElementById('admin-panel').classList.remove('active')" style="color:#fff;font-size:1.5rem;background:none;border:none;">&times;</button></div><button onclick="fixCategories()" class="btn-green" style="margin-bottom:10px;">🔧 Move Beds → Sofas</button><select id="upload-cat" style="width:100%;padding:10px;background:#000;border:1px solid #333;color:#fff;border-radius:8px;margin-bottom:10px;"><option value="bedroom">🛏️ Bedroom</option><option value="livingroom">🛋️ Living Room</option><option value="dining">🍽️ Dining</option><option value="tables">📐 Tables</option><option value="tvstands">📺 TV Stands</option></select><div onclick="document.getElementById('file-input').click()" style="border:2px dashed #c9a84c;padding:20px;text-align:center;border-radius:10px;cursor:pointer;margin-bottom:10px;"><p style="color:#fff;font-size:0.9rem;">📁 Tap to select images</p><input type="file" id="file-input" multiple accept="image/*" style="display:none;" onchange="previewFiles()"></div><div id="preview-box" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;"></div><button onclick="uploadAll()" class="btn-gold">📤 Upload</button></div></div>
 
-    <!-- SIMPLE FULL SCREEN IMAGE VIEWER -->
+    <!-- FULL SCREEN IMAGE VIEWER -->
     <div id="img-viewer">
         <span class="counter" id="v-counter">1 / 1</span>
         <button class="close-btn" onclick="closeViewer()">✕</button>
         <button class="nav-left" onclick="navViewer(-1)">◀</button>
         <button class="nav-right" onclick="navViewer(1)">▶</button>
-        <img id="v-img" src="" alt="Furniture">
+        <div class="viewer-image-container">
+            <img id="v-img" src="" alt="Furniture">
+        </div>
         <div class="bottom-btns">
-            <button class="save-btn" onclick="saveImg()">💾 Save to Device</button>
-            <a class="wa-btn" href="https://wa.me/2349135357118?text=Hello%20Engineer%20Tochukwu,%20I%20want%20to%20order%20this%20furniture" target="_blank">💬 Order on WhatsApp</a>
+            <button class="save-btn" onclick="saveImg()">💾 Save</button>
+            <a class="wa-btn" href="https://wa.me/2349135357118?text=Hello%20Engineer%20Tochukwu,%20I%20want%20to%20order%20this%20furniture" target="_blank">💬 WhatsApp</a>
         </div>
     </div>
 
-    <section id="home-section" class="hero-bg" style="min-height:70vh;display:flex;align-items:center;padding:40px 20px;">
-        <div style="max-width:550px;">
-            <p style="color:#c9a84c;text-transform:uppercase;letter-spacing:0.2em;font-size:0.75rem;">Premium Furniture</p>
-            <h1 style="font-family:'Playfair Display',serif;font-size:3rem;line-height:1.1;margin:8px 0;">Crafted for <span style="background:linear-gradient(135deg,#d4b86a,#c9a84c,#a88a2e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Comfort.</span></h1>
-            <p style="color:#aaa;margin-bottom:20px;">Quality furniture designs for your home.</p>
-            <div class="search-box"><input type="text" id="search-input" placeholder="Search furniture..." onkeypress="if(event.key==='Enter')searchNow()"><button onclick="searchNow()">🔍 Search</button></div>
+    <!-- HERO -->
+    <section id="home-section" class="hero-bg" style="min-height:50vh;display:flex;align-items:center;padding:30px 15px;">
+        <div style="max-width:100%;">
+            <p style="color:#c9a84c;text-transform:uppercase;letter-spacing:0.2em;font-size:0.7rem;">Premium Furniture</p>
+            <h1 style="font-family:'Playfair Display',serif;font-size:2rem;line-height:1.1;margin:6px 0;">Crafted for <span style="background:linear-gradient(135deg,#d4b86a,#c9a84c,#a88a2e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Comfort.</span></h1>
+            <p style="color:#aaa;margin-bottom:15px;font-size:0.85rem;">Quality furniture designs for your home.</p>
+            <div class="search-box"><input type="text" id="search-input" placeholder="Search furniture..." onkeypress="if(event.key==='Enter')searchNow()"><button onclick="searchNow()">🔍</button></div>
         </div>
     </section>
 
-    <section id="home-cats" style="max-width:1100px;margin:0 auto;padding:50px 20px;">
-        <h2 style="text-align:center;font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:35px;">Shop By Category</h2>
-        <div id="cats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px;"></div>
+    <!-- CATEGORIES -->
+    <section id="home-cats" style="max-width:1100px;margin:0 auto;padding:30px 15px;">
+        <h2 style="text-align:center;font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:25px;">Shop By Category</h2>
+        <div id="cats-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;"></div>
     </section>
 
-    <div id="search-section" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">🔍 Search Results</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="search-products"></div><button class="load-more-btn" id="search-load-more" onclick="loadMoreSearch()" style="display:none;">Load More</button></div>
+    <!-- SEARCH -->
+    <div id="search-section" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">🔍 Search Results</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="search-products"></div><button class="load-more-btn" id="search-load-more" onclick="loadMoreSearch()" style="display:none;">Load More</button></div>
 
-    <div id="bedroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">🛏️ Bed Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="bedroom-products"></div><button class="load-more-btn" onclick="loadMore('bedroom')">Load More</button></div>
-    <div id="livingroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">🛋️ Couch Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="livingroom-products"></div><button class="load-more-btn" onclick="loadMore('livingroom')">Load More</button></div>
-    <div id="dining-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">🍽️ Dining Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="dining-products"></div><button class="load-more-btn" onclick="loadMore('dining')">Load More</button></div>
-    <div id="tables-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">📐 Table Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="tables-products"></div><button class="load-more-btn" onclick="loadMore('tables')">Load More</button></div>
-    <div id="tvstands-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:30px 20px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;">📺 TV Stand Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:16px;">← Back</button><div class="product-grid" id="tvstands-products"></div><button class="load-more-btn" onclick="loadMore('tvstands')">Load More</button></div>
+    <!-- COLLECTIONS -->
+    <div id="bedroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">🛏️ Bed Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="bedroom-products"></div><button class="load-more-btn" onclick="loadMore('bedroom')">Load More</button></div>
+    <div id="livingroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">🛋️ Couch Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="livingroom-products"></div><button class="load-more-btn" onclick="loadMore('livingroom')">Load More</button></div>
+    <div id="dining-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">🍽️ Dining Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="dining-products"></div><button class="load-more-btn" onclick="loadMore('dining')">Load More</button></div>
+    <div id="tables-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">📐 Table Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="tables-products"></div><button class="load-more-btn" onclick="loadMore('tables')">Load More</button></div>
+    <div id="tvstands-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:20px 15px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;">📺 TV Stand Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:12px;">← Back</button><div class="product-grid" id="tvstands-products"></div><button class="load-more-btn" onclick="loadMore('tvstands')">Load More</button></div>
 
-    <section style="max-width:1100px;margin:30px auto;padding:20px;">
-        <div style="background:#111;border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
-            <div><p style="color:#aaa;font-size:0.75rem;">Contact Engineer</p><p style="font-size:1.2rem;font-weight:bold;">Tochukwu</p><p style="color:#c9a84c;">09135357118</p></div>
-            <a href="https://wa.me/2349135357118" target="_blank" style="background:#25D366;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600;">💬 Chat on WhatsApp</a>
+    <!-- CONTACT -->
+    <section style="max-width:1100px;margin:20px auto;padding:15px;">
+        <div style="background:#111;border-radius:12px;padding:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div><p style="color:#aaa;font-size:0.7rem;">Contact Engineer</p><p style="font-size:1.1rem;font-weight:bold;">Tochukwu</p><p style="color:#c9a84c;font-size:0.85rem;">09135357118</p></div>
+            <a href="https://wa.me/2349135357118" target="_blank" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.85rem;">💬 Chat on WhatsApp</a>
         </div>
     </section>
 
-    <footer style="text-align:center;padding:25px;color:#555;font-size:0.75rem;">© 2026 TCWF · Classic World Furniture</footer>
-    <a href="https://wa.me/2349135357118" target="_blank" style="position:fixed;bottom:22px;right:22px;background:#25D366;color:#fff;width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;z-index:99;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.3);">💬</a>
+    <footer style="text-align:center;padding:20px;color:#555;font-size:0.7rem;">© 2026 TCWF · Classic World Furniture</footer>
+    <a href="https://wa.me/2349135357118" target="_blank" style="position:fixed;bottom:18px;right:18px;background:#25D366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:99;text-decoration:none;box-shadow:0 6px 20px rgba(37,211,102,0.3);">💬</a>
 
     <script>
         const PLACEHOLDERS = {
@@ -244,6 +281,23 @@
         let pageNumbers = { bedroom:1, livingroom:1, dining:1, tables:1, tvstands:1, search:1 };
         let currentSearchQuery = '';
         
+        // Touch/swipe for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewer = document.getElementById('img-viewer');
+            viewer.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; }, false);
+            viewer.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) navViewer(1);
+                    else navViewer(-1);
+                }
+            }, false);
+        });
+        
         async function loadSheet() {
             try { const r = await fetch(CONFIG.SHEETDB_API); allProducts = await r.json(); allProducts = allProducts.map(p => ({...p, category: (p.category||p['category ']||'').trim()})); } catch(e) { allProducts = []; }
         }
@@ -255,22 +309,22 @@
             if (bedroomItems.length === 0) { alert('No images in Bedroom!'); return; }
             let count = 0;
             for (const item of bedroomItems) {
-                try { await fetch(`${CONFIG.SHEETDB_API}/id/${item.id}`, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ category:'livingroom' }) }); count++; } catch(e) {}
+                try { await fetch(CONFIG.SHEETDB_API + '/id/' + item.id, { method:'PATCH', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ category:'livingroom' }) }); count++; } catch(e) {}
             }
             await loadSheet();
             alert('✅ Moved ' + count + ' images to Sofas!');
             showCollection('livingroom');
         }
         
-        async function fetchUnsplash(query, page = 1, n = 20) {
+        async function fetchUnsplash(query, page, n) {
+            page = page || 1; n = n || 20;
             try {
                 const r = await fetch('https://api.unsplash.com/search/photos?query=' + encodeURIComponent(query) + '&per_page=' + n + '&page=' + page + '&client_id=' + CONFIG.UNSPLASH_ACCESS_KEY);
                 const d = await r.json();
-                return d.results.map(img => ({ id: img.id, url: img.urls.regular, name: img.alt_description || query }));
+                return d.results.map(function(img) { return { id: img.id, url: img.urls.regular, name: img.alt_description || query }; });
             } catch(e) { return []; }
         }
         
-        // SIMPLE VIEWER FUNCTIONS
         function openViewer(urls, idx) {
             viewerUrls = urls;
             viewerIdx = idx;
@@ -317,10 +371,14 @@
             const newImages = await fetchUnsplash(CAT_QUERIES[cat], pageNumbers[cat], 20);
             if (newImages.length) {
                 const container = document.getElementById(cat+'-products');
-                const existingImgs = Array.from(container.querySelectorAll('img')).map(img => img.src);
-                const allUrls = [...existingImgs, ...newImages.map(x => x.url)];
+                const existingImgs = Array.from(container.querySelectorAll('img')).map(function(img) { return img.src; });
+                const allUrls = existingImgs.concat(newImages.map(function(x) { return x.url; }));
                 const startIdx = container.querySelectorAll('.product-card').length;
-                container.innerHTML += newImages.map((p, i) => '<div class="product-card" onclick="openViewer(' + JSON.stringify(allUrls) + ',' + (startIdx + i) + ')"><img src="' + p.url + '" loading="lazy" onerror="this.src=\'' + PLACEHOLDERS[cat] + '\';"><div style="padding:8px 10px;"><p style="font-size:0.75rem;color:#ccc;">' + (p.name||'Furniture').substring(0,40) + '</p></div></div>').join('');
+                let html = '';
+                for (var i = 0; i < newImages.length; i++) {
+                    html += '<div class="product-card" onclick="openViewer(' + JSON.stringify(allUrls) + ',' + (startIdx + i) + ')"><img src="' + newImages[i].url + '" loading="lazy" onerror="this.src=\'' + PLACEHOLDERS[cat] + '\';"><div style="padding:6px 8px;"><p style="font-size:0.7rem;color:#ccc;">' + (newImages[i].name||'Furniture').substring(0,35) + '</p></div></div>';
+                }
+                container.innerHTML += html;
                 if (btn) btn.textContent = 'Load More';
             }
         }
@@ -331,10 +389,14 @@
             const newImages = await fetchUnsplash(currentSearchQuery, pageNumbers.search, 20);
             if (newImages.length) {
                 const container = document.getElementById('search-products');
-                const existingImgs = Array.from(container.querySelectorAll('img')).map(img => img.src);
-                const allUrls = [...existingImgs, ...newImages.map(x => x.url)];
+                const existingImgs = Array.from(container.querySelectorAll('img')).map(function(img) { return img.src; });
+                const allUrls = existingImgs.concat(newImages.map(function(x) { return x.url; }));
                 const startIdx = container.querySelectorAll('.product-card').length;
-                container.innerHTML += newImages.map((p, i) => '<div class="product-card" onclick="openViewer(' + JSON.stringify(allUrls) + ',' + (startIdx + i) + ')"><img src="' + p.url + '" loading="lazy"><div style="padding:8px 10px;"><p style="font-size:0.75rem;color:#ccc;">' + (p.name||'Furniture').substring(0,40) + '</p></div></div>').join('');
+                let html = '';
+                for (var i = 0; i < newImages.length; i++) {
+                    html += '<div class="product-card" onclick="openViewer(' + JSON.stringify(allUrls) + ',' + (startIdx + i) + ')"><img src="' + newImages[i].url + '" loading="lazy"><div style="padding:6px 8px;"><p style="font-size:0.7rem;color:#ccc;">' + (newImages[i].name||'Furniture').substring(0,35) + '</p></div></div>';
+                }
+                container.innerHTML += html;
                 document.getElementById('search-load-more').textContent = 'Load More';
             }
         }
@@ -349,14 +411,23 @@
             document.getElementById('search-load-more').style.display = 'none';
             const unsplash = await fetchUnsplash(currentSearchQuery, 1, 30);
             await loadSheet();
-            const results = [...allProducts.filter(p => p.name && p.name.toLowerCase().includes(q.toLowerCase())), ...unsplash];
-            const urls = results.map(x => x.url);
-            document.getElementById('search-products').innerHTML = results.map((p, i) => '<div class="product-card" onclick="openViewer(' + JSON.stringify(urls) + ',' + i + ')"><img src="' + p.url + '" loading="lazy"><div style="padding:8px 10px;"><p style="font-size:0.75rem;color:#ccc;">' + (p.name||'Furniture').substring(0,40) + '</p></div></div>').join('');
+            const results = allProducts.filter(function(p) { return p.name && p.name.toLowerCase().includes(q.toLowerCase()); }).concat(unsplash);
+            const urls = results.map(function(x) { return x.url; });
+            let html = '';
+            for (var i = 0; i < results.length; i++) {
+                html += '<div class="product-card" onclick="openViewer(' + JSON.stringify(urls) + ',' + i + ')"><img src="' + results[i].url + '" loading="lazy"><div style="padding:6px 8px;"><p style="font-size:0.7rem;color:#ccc;">' + (results[i].name||'Furniture').substring(0,35) + '</p></div></div>';
+            }
+            document.getElementById('search-products').innerHTML = html;
             if (results.length >= 30) document.getElementById('search-load-more').style.display = 'block';
             window.scrollTo(0,0);
         }
         
-        function hideAll() { document.querySelectorAll('.collection-section').forEach(function(el) { el.classList.remove('active'); }); document.getElementById('home-section').style.display='none'; document.getElementById('home-cats').style.display='none'; }
+        function hideAll() {
+            var sections = document.querySelectorAll('.collection-section');
+            for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
+            document.getElementById('home-section').style.display='none';
+            document.getElementById('home-cats').style.display='none';
+        }
         
         async function showCollection(cat) {
             hideAll(); pageNumbers[cat] = 1;
@@ -366,37 +437,85 @@
             document.getElementById(cat+'-products').innerHTML = '<p style="color:#aaa;text-align:center;padding:40px;">Loading...</p>';
             await loadSheet();
             const unsplash = await fetchUnsplash(CAT_QUERIES[cat], 1, 24);
-            const sheet = allProducts.filter(p => p.category === cat);
-            const results = [...sheet, ...unsplash];
-            const urls = results.map(x => x.url);
-            document.getElementById(cat+'-products').innerHTML = results.map((p, i) => '<div class="product-card" onclick="openViewer(' + JSON.stringify(urls) + ',' + i + ')"><img src="' + p.url + '" loading="lazy" onerror="this.src=\'' + PLACEHOLDERS[cat] + '\';"><div style="padding:8px 10px;"><p style="font-size:0.75rem;color:#ccc;">' + (p.name||'Furniture').substring(0,40) + '</p></div></div>').join('');
+            const sheet = allProducts.filter(function(p) { return p.category === cat; });
+            const results = sheet.concat(unsplash);
+            const urls = results.map(function(x) { return x.url; });
+            let html = '';
+            for (var i = 0; i < results.length; i++) {
+                html += '<div class="product-card" onclick="openViewer(' + JSON.stringify(urls) + ',' + i + ')"><img src="' + results[i].url + '" loading="lazy" onerror="this.src=\'' + PLACEHOLDERS[cat] + '\';"><div style="padding:6px 8px;"><p style="font-size:0.7rem;color:#ccc;">' + (results[i].name||'Furniture').substring(0,35) + '</p></div></div>';
+            }
+            document.getElementById(cat+'-products').innerHTML = html;
             window.scrollTo(0,0);
         }
         
         function renderCats() {
-            document.getElementById('cats-grid').innerHTML = CATS.map(function(cat) {
-                return '<div class="category-card" onclick="showCollection(\'' + cat + '\')"><div style="position:relative;"><img src="' + PLACEHOLDERS[cat] + '" alt="' + CAT_LABELS[cat] + '"><div class="blink-text">✨ VIEW COLLECTION ✨</div></div><div style="padding:12px;text-align:center;"><h3 style="font-family:\'Playfair Display\',serif;font-size:1rem;font-weight:600;">' + CAT_LABELS[cat] + '</h3></div></div>';
-            }).join('');
+            var html = '';
+            for (var i = 0; i < CATS.length; i++) {
+                var cat = CATS[i];
+                html += '<div class="category-card" onclick="showCollection(\'' + cat + '\')"><div style="position:relative;"><img src="' + PLACEHOLDERS[cat] + '" alt="' + CAT_LABELS[cat] + '"><div class="blink-text">✨ VIEW ✨</div></div><div style="padding:10px;text-align:center;"><h3 style="font-family:\'Playfair Display\',serif;font-size:0.9rem;font-weight:600;">' + CAT_LABELS[cat] + '</h3></div></div>';
+            }
+            document.getElementById('cats-grid').innerHTML = html;
         }
         
-        function showHome() { document.querySelectorAll('.collection-section').forEach(function(el) { el.classList.remove('active'); }); document.getElementById('home-section').style.display='flex'; document.getElementById('home-cats').style.display='block'; renderCats(); window.scrollTo(0,0); }
-        function previewFiles() { selectedFiles = Array.from(document.getElementById('file-input').files); document.getElementById('preview-box').innerHTML = selectedFiles.map(function(f) { return '<img src="' + URL.createObjectURL(f) + '" style="width:70px;height:70px;object-fit:cover;border-radius:6px;">'; }).join(''); }
+        function showHome() {
+            var sections = document.querySelectorAll('.collection-section');
+            for (var i = 0; i < sections.length; i++) { sections[i].classList.remove('active'); }
+            document.getElementById('home-section').style.display='flex';
+            document.getElementById('home-cats').style.display='block';
+            renderCats();
+            window.scrollTo(0,0);
+        }
+        
+        function previewFiles() {
+            selectedFiles = Array.from(document.getElementById('file-input').files);
+            var html = '';
+            for (var i = 0; i < selectedFiles.length; i++) {
+                html += '<img src="' + URL.createObjectURL(selectedFiles[i]) + '" style="width:60px;height:60px;object-fit:cover;border-radius:6px;">';
+            }
+            document.getElementById('preview-box').innerHTML = html;
+        }
         
         async function uploadAll() {
             if (!selectedFiles.length) { alert('Select images!'); return; }
             const cat = document.getElementById('upload-cat').value;
-            for (const f of selectedFiles) {
-                const fd = new FormData(); fd.append('image', f);
-                try { const r = await fetch('https://api.imgbb.com/1/upload?key=' + CONFIG.IMGBB_API_KEY, { method:'POST', body:fd }); const d = await r.json(); if (d.success) { await fetch(CONFIG.SHEETDB_API, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ id:String(Date.now()), category:cat, url:d.data.url, name:f.name }) }); } } catch(e) {}
+            for (var i = 0; i < selectedFiles.length; i++) {
+                const fd = new FormData(); fd.append('image', selectedFiles[i]);
+                try {
+                    const r = await fetch('https://api.imgbb.com/1/upload?key=' + CONFIG.IMGBB_API_KEY, { method:'POST', body:fd });
+                    const d = await r.json();
+                    if (d.success) {
+                        await fetch(CONFIG.SHEETDB_API, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ id:String(Date.now()), category:cat, url:d.data.url, name:selectedFiles[i].name }) });
+                    }
+                } catch(e) {}
             }
-            await loadSheet(); selectedFiles = []; document.getElementById('preview-box').innerHTML = ''; document.getElementById('file-input').value = ''; alert('✅ Uploaded!'); showCollection(cat);
+            await loadSheet(); selectedFiles = [];
+            document.getElementById('preview-box').innerHTML = '';
+            document.getElementById('file-input').value = '';
+            alert('✅ Uploaded!');
+            showCollection(cat);
         }
         
-        function adminLogin() { if (document.getElementById('admin-pass').value===CONFIG.ADMIN_PASSWORD) { document.getElementById('login-modal').classList.remove('active'); document.getElementById('admin-panel').classList.add('active'); } else { document.getElementById('login-err').style.display='block'; } }
-        function openLogin() { document.getElementById('login-modal').classList.add('active'); document.getElementById('login-err').style.display='none'; }
+        function adminLogin() {
+            if (document.getElementById('admin-pass').value === CONFIG.ADMIN_PASSWORD) {
+                document.getElementById('login-modal').classList.remove('active');
+                document.getElementById('admin-panel').classList.add('active');
+            } else {
+                document.getElementById('login-err').style.display='block';
+            }
+        }
+        function openLogin() {
+            document.getElementById('login-modal').classList.add('active');
+            document.getElementById('login-err').style.display='none';
+        }
         
-        document.addEventListener('click', function(e) { if(e.target.classList.contains('modal')) e.target.classList.remove('active'); });
-        document.addEventListener('DOMContentLoaded', function() { renderCats(); showHome(); });
+        document.addEventListener('click', function(e) {
+            if(e.target.classList.contains('modal')) e.target.classList.remove('active');
+        });
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCats();
+            showHome();
+        });
         
         window.showHome=showHome;window.showCollection=showCollection;window.searchNow=searchNow;
         window.adminLogin=adminLogin;window.openLogin=openLogin;window.uploadAll=uploadAll;
