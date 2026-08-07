@@ -4,18 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TCWF | Classic World Furniture</title>
+    
+    <!-- ============================================ -->
+    <!-- 🔥 EZOIC INTEGRATION - INSTRUCTIONS BELOW 🔥 -->
+    <!-- ============================================ -->
+    <!-- 
+        STEP 1: Register at https://ezoic.com
+        STEP 2: After registration, go to your Ezoic Dashboard > Site Settings > Integration
+        STEP 3: Copy the JavaScript code they give you
+        STEP 4: Paste it below where it says "YOUR EZOIC CODE GOES HERE"
+        STEP 5: Save and upload this file to your server
+    -->
+    
+    <!-- 📍 PASTE YOUR EZOIC CODE HERE (from Ezoic Dashboard) -->
+    <script>
+        // =============================================
+        // 🚨 REPLACE THIS WITH YOUR ACTUAL EZOIC CODE 🚨
+        // =============================================
+        // 
+        // Go to: Ezoic Dashboard → Site Settings → Integration → Get Code
+        // Copy the entire script and paste it below
+        //
+        // Example of what your Ezoic code will look like:
+        /*
+        window.ezstandalone = window.ezstandalone || {};
+        window.ezstandalone.cmd = window.ezstandalone.cmd || [];
+        (function() {
+            var ez = document.createElement('script');
+            ez.src = '//www.ezoic.com/ezstandalone/XXXXXXXXX.js?XXXXXXXXX';
+            ez.async = true;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ez, s);
+        })();
+        */
+        // =============================================
+        
+        console.log('⚠️ Ezoic code not yet added. Follow instructions above.');
+    </script>
+    
+    <!-- END OF EZOIC INTEGRATION -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
-    
-    <!-- ============================================ -->
-    <!-- POPADS - POPUNDER AD -->
-    <!-- ============================================ -->
-    <script type="text/javascript" data-cfasync="false">
-    /*<![CDATA[/* */
-    (function(){var q=window,i="ab1ac711051636ea677165e87cf60e67",o=[["siteId",288+411-92+5315090],["minBid",0],["popundersPerIP","0"],["delayBetween",0],["default",false],["defaultPerDay",0],["topmostLayer","auto"]],c=["d3d3LnByZW1pdW12ZXJ0aXNpbmcuY29tL2lwdXNoLm1pbi5jc3M=","ZDJqMDQyY2oxNDIxd2kuY2xvdWRmcm9udC5uZXQvZVdwL2xvei5taW4uanM="],l=-1,y,b,t=function(){clearTimeout(b);l++;if(c[l]&&!(1811801901000<(new Date).getTime()&&1<l)){y=q.document.createElement("script");y.type="text/javascript";y.async=!0;var e=q.document.getElementsByTagName("script")[0];y.src="https://"+atob(c[l]);y.crossOrigin="anonymous";y.onerror=t;y.onload=function(){clearTimeout(b);q[i.slice(0,16)+i.slice(0,16)]||t()};b=setTimeout(t,5E3);e.parentNode.insertBefore(y,e)}};if(!q[i]){try{Object.freeze(q[i]=o)}catch(e){}t()}})();
-    /*]]>/* */
-    </script>
     
     <script>
         tailwind.config = {
@@ -67,8 +98,44 @@
         .fs-save { background:#c9a84c; color:#000; }
         .fs-wa { background:#25D366; color:#fff; }
         
-        .ad-box { text-align:center; margin:15px auto; max-width:350px; padding:8px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; min-height:60px; }
-        .ad-label { color:#555; font-size:0.5rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:4px; }
+        /* Ezoic Ad Styling - These will be replaced by actual Ezoic ads */
+        .ezoic-ad-container {
+            text-align: center;
+            margin: 15px auto;
+            max-width: 350px;
+            min-height: 90px;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .ezoic-ad-container .ad-label {
+            color: #555;
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+        .ezoic-ad-container .ad-placeholder-text {
+            color: #444;
+            font-size: 0.6rem;
+            padding: 10px;
+        }
+        .ezoic-ad-container .ad-loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            margin: 10px auto;
+            border: 2px solid #333;
+            border-top: 2px solid #c9a84c;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .ezoic-ad-container.loading .ad-loader { display:block; }
+        .ezoic-ad-container.loading .ad-placeholder-text { display:none; }
         
         .search-box { display:flex; max-width:100%; }
         .search-box input { flex:1; padding:12px 14px; background:#111; border:2px solid #333; color:#fff; border-radius:25px 0 0 25px; font-size:0.85rem; min-width:0; }
@@ -82,11 +149,16 @@
 </head>
 <body>
 
-    <!-- TOP AD -->
+    <!-- ============================================ -->
+    <!-- 📢 TOP AD - EZOIC PLACEHOLDER -->
+    <!-- ============================================ -->
     <div style="background:#000; text-align:center; padding:6px; border-bottom:1px solid #1a1a1a;">
-        <p style="color:#555; font-size:0.5rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:3px;">Advertisement</p>
-        <div style="max-width:350px; margin:0 auto; min-height:60px;">
-            <script src="https://pl30685025.effectivecpmnetwork.com/98/b1/9c/98b19cbd65e58054c3a195bde9c05bf4.js"></script>
+        <div style="max-width:350px; margin:0 auto;">
+            <div class="ezoic-ad-container" id="ezoic-top">
+                <div class="ad-label">Advertisement</div>
+                <div class="ad-loader"></div>
+                <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+            </div>
         </div>
     </div>
 
@@ -139,7 +211,11 @@
     </section>
 
     <!-- AD 1: After Hero -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685027.effectivecpmnetwork.com/71/63/f3/7163f3d9765f5bfd785611596bc85b92.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-hero">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- CATEGORIES -->
     <section id="home-cats" style="max-width:1100px;margin:0 auto;padding:25px 12px;">
@@ -148,35 +224,64 @@
     </section>
 
     <!-- AD 2: After Categories -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685028.effectivecpmnetwork.com/9308a924d252942d682ca93c1aaa8de6/invoke.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-categories">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- SEARCH -->
     <div id="search-section" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">🔍 Results</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="search-products"></div><button class="load-more-btn" id="search-load-more" onclick="loadMoreSearch()" style="display:none;">Load More</button></div>
 
     <!-- BEDS -->
     <div id="bedroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">🛏️ Bed Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="bedroom-products"></div><button class="load-more-btn" onclick="loadMore('bedroom')">Load More</button></div>
+    
     <!-- AD 3: After Beds -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685025.effectivecpmnetwork.com/98/b1/9c/98b19cbd65e58054c3a195bde9c05bf4.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-beds">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- SOFAS -->
     <div id="livingroom-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">🛋️ Couch Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="livingroom-products"></div><button class="load-more-btn" onclick="loadMore('livingroom')">Load More</button></div>
+    
     <!-- AD 4: After Sofas -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685027.effectivecpmnetwork.com/71/63/f3/7163f3d9765f5bfd785611596bc85b92.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-sofas">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- DINING -->
     <div id="dining-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">🍽️ Dining Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="dining-products"></div><button class="load-more-btn" onclick="loadMore('dining')">Load More</button></div>
+    
     <!-- AD 5: After Dining -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685028.effectivecpmnetwork.com/9308a924d252942d682ca93c1aaa8de6/invoke.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-dining">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- TABLES -->
     <div id="tables-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">📐 Table Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="tables-products"></div><button class="load-more-btn" onclick="loadMore('tables')">Load More</button></div>
+    
     <!-- AD 6: After Tables -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685025.effectivecpmnetwork.com/98/b1/9c/98b19cbd65e58054c3a195bde9c05bf4.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-tables">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- TV STANDS -->
     <div id="tvstands-collection" class="collection-section" style="max-width:1100px;margin:0 auto;padding:15px 12px;"><h2 style="font-family:'Playfair Display',serif;font-size:1.3rem;">📺 TV Stand Designs</h2><button onclick="showHome()" style="color:#c9a84c;background:none;border:none;margin-bottom:10px;">← Back</button><div class="product-grid" id="tvstands-products"></div><button class="load-more-btn" onclick="loadMore('tvstands')">Load More</button></div>
+    
     <!-- AD 7: After TV Stands -->
-    <div class="ad-box"><div class="ad-label">Advertisement</div><script src="https://pl30685027.effectivecpmnetwork.com/71/63/f3/7163f3d9765f5bfd785611596bc85b92.js"></script></div>
+    <div class="ezoic-ad-container" id="ezoic-after-tvstands">
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-loader"></div>
+        <div class="ad-placeholder-text">Ezoic Ad Loading...</div>
+    </div>
 
     <!-- CONTACT -->
     <section style="max-width:1100px;margin:15px auto;padding:12px;">
